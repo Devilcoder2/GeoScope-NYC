@@ -1,4 +1,10 @@
 import { useEffect, useState } from "react";
+import { Map, View } from "ol";
+import TileLayer from "ol/layer/Tile";
+import OSM from "ol/source/OSM";
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import GeoJSON from "ol/format/GeoJSON";
 
 import "ol/ol.css";
 
@@ -38,6 +44,38 @@ const MapComponent: React.FC = () => {
   useEffect(() => {
     fetchapi();
   }, []);
+
+  useEffect(() => {
+    if (geoJsonData) {
+      console.log(geoJsonData);
+
+      const vectorSource = new VectorSource({
+        features: new GeoJSON().readFeatures(geoJsonData, {
+          featureProjection: "EPSG:3857",
+        }),
+      });
+
+      const vectorLayer = new VectorLayer({
+        source: vectorSource,
+      });
+
+      const map = new Map({
+        target: "map",
+        layers: [
+          new TileLayer({
+            source: new OSM(),
+          }),
+          vectorLayer,
+        ],
+        view: new View({
+          center: [0, 0],
+          zoom: 2,
+        }),
+      });
+
+      return () => map.setTarget(null);
+    }
+  }, [geoJsonData]);
 
   return <div id="map" className="w-[100vw] h-[100vh]"></div>;
 };
