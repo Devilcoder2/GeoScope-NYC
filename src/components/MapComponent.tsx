@@ -66,13 +66,14 @@ const MapComponent: React.FC = () => {
           vectorLayer,
         ],
         view: new View({
-          center: [0, 0],
-          zoom: 1,
+          center: [-11542437.750890903, 4862581.061116328],
+          zoom: 4,
         }),
       });
 
       map.on("click", (event) => {
         const clickedCoordinate = event.coordinate;
+        console.log(clickedCoordinate);
         if (clickedCoordinate) {
           map.getView().setCenter(clickedCoordinate);
         }
