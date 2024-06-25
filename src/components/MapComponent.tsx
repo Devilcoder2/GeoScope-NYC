@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
-import { toStringXY } from "ol/coordinate";
 
 import "ol/ol.css";
 
@@ -33,6 +32,11 @@ interface GeoJsonData {
 
 const MapComponent: React.FC = () => {
   const [geoJsonData, setGeoJsonData] = useState<GeoJsonData | null>(null);
+  const [popoverVisible, setPopOverVisibe] = useState<boolean>(false);
+  const [popoverContent, setPopOverContent] =
+    useState<FeatureProperties | null>(null);
+
+  const popoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -79,7 +83,31 @@ const MapComponent: React.FC = () => {
 
         if (feature) {
           const properties = feature.getProperties();
-          console.log("Hovered Feature Properties", properties);
+          const coordinates = event.coordinate;
+
+          if (properties) {
+            const content: FeatureProperties = {
+              name: properties.name,
+              density: properties.density,
+            };
+
+            setPopOverContent(content);
+          }
+
+          setPopOverVisibe(true);
+
+          //calculate position for popover
+          if (popoverRef.current) {
+            const mapElement = map.getTargetElement();
+            const mapRect = mapElement.getBoundingClientRect();
+
+            const pixel = map.getPixelFromCoordinate(coordinates);
+            const left = pixel[0] - mapRect.left + "px";
+            const top = pixel[1] - mapRect.top + "px";
+
+            popoverRef.current.style.left = left;
+            popoverRef.current.style.top = top;
+          }
         }
       };
 
@@ -92,7 +120,22 @@ const MapComponent: React.FC = () => {
     }
   }, [geoJsonData]);
 
-  return <div id="map" className="w-[100vw] h-[100vh]"></div>;
+  return (
+    <div className="relative w-[100vw] h-[100vh]">
+      <div id="map" className="w-full h-full"></div>
+      {popoverVisible && (
+        <div
+          ref={popoverRef}
+          className="absolute bg-white border border-solid border-black p-3 z-1000 pointer-events-none"
+        >
+          <div className="text-sm leading-3">
+            <h3>{popoverContent && popoverContent.name}</h3>
+            <h3>Density: {popoverContent && popoverContent.density}</h3>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default MapComponent;
