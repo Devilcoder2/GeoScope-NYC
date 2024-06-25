@@ -5,6 +5,9 @@ import OSM from "ol/source/OSM";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
+import { Feature } from "ol";
+import { Polygon } from "ol/geom";
+import { Style, Fill, Stroke } from "ol/style";
 
 import "ol/ol.css";
 
@@ -32,8 +35,8 @@ interface GeoJsonData {
 
 const MapComponent: React.FC = () => {
   const [geoJsonData, setGeoJsonData] = useState<GeoJsonData | null>(null);
-  const [popoverVisible, setPopOverVisibe] = useState<boolean>(false);
-  const [popoverContent, setPopOverContent] =
+  const [popoverVisible, setPopoverVisible] = useState<boolean>(false);
+  const [popoverContent, setPopoverContent] =
     useState<FeatureProperties | null>(null);
 
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -50,6 +53,17 @@ const MapComponent: React.FC = () => {
     fetchApi();
   }, []);
 
+  const getColorForDensity = (density: number): string => {
+    // Define a color scale based on density
+    if (density > 200) return "#1E3F66";
+    if (density > 100) return "#2E5984";
+    if (density > 50) return "#528AAE";
+    if (density > 20) return "#73A5C6";
+    if (density > 10) return "#9EC0E7";
+    if (density > 5) return "#BCD2E8";
+    return "#7BC0F2";
+  };
+
   useEffect(() => {
     if (geoJsonData) {
       const vectorSource = new VectorSource({
@@ -60,6 +74,19 @@ const MapComponent: React.FC = () => {
 
       const vectorLayer = new VectorLayer({
         source: vectorSource,
+        style: (feature: Feature) => {
+          const density = feature.get("density");
+          const color = getColorForDensity(density);
+          return new Style({
+            fill: new Fill({
+              color: color,
+            }),
+            stroke: new Stroke({
+              color: "#000",
+              width: 1,
+            }),
+          });
+        },
       });
 
       const map = new Map({
@@ -72,7 +99,7 @@ const MapComponent: React.FC = () => {
         ],
         view: new View({
           center: [-11542437.750890903, 4862581.061116328],
-          zoom: 5,
+          zoom: 4,
         }),
       });
 
@@ -91,12 +118,11 @@ const MapComponent: React.FC = () => {
               density: properties.density,
             };
 
-            setPopOverContent(content);
+            setPopoverContent(content);
           }
 
-          setPopOverVisibe(true);
+          setPopoverVisible(true);
 
-          //calculate position for popover
           if (popoverRef.current) {
             const mapElement = map.getTargetElement();
             const mapRect = mapElement.getBoundingClientRect();
@@ -109,7 +135,7 @@ const MapComponent: React.FC = () => {
             popoverRef.current.style.top = top;
           }
         } else {
-          setPopOverVisibe(false);
+          setPopoverVisible(false);
         }
       };
 
@@ -128,7 +154,7 @@ const MapComponent: React.FC = () => {
       {popoverVisible && (
         <div
           ref={popoverRef}
-          className="absolute bg-white border border-solid border-black p-3 z-1000 pointer-events-none"
+          className="absolute bg-white border border-solid border-black p-3 z-50 pointer-events-none"
         >
           <div className="text-sm leading-3">
             <h3>{popoverContent && popoverContent.name}</h3>
@@ -136,6 +162,60 @@ const MapComponent: React.FC = () => {
           </div>
         </div>
       )}
+      <div className="absolute bottom-4 left-4 bg-white p-2 border border-solid border-black">
+        <h3 className="text-sm font-bold">Density Legend</h3>
+        <ul className="text-xs">
+          <li>
+            <span
+              className="inline-block w-4 h-4 mr-2"
+              style={{ backgroundColor: "#800026" }}
+            ></span>{" "}
+            200
+          </li>
+          <li>
+            <span
+              className="inline-block w-4 h-4 mr-2"
+              style={{ backgroundColor: "#BD0026" }}
+            ></span>{" "}
+            100
+          </li>
+          <li>
+            <span
+              className="inline-block w-4 h-4 mr-2"
+              style={{ backgroundColor: "#E31A1C" }}
+            ></span>{" "}
+            50
+          </li>
+          <li>
+            <span
+              className="inline-block w-4 h-4 mr-2"
+              style={{ backgroundColor: "#FC4E2A" }}
+            ></span>{" "}
+            20
+          </li>
+          <li>
+            <span
+              className="inline-block w-4 h-4 mr-2"
+              style={{ backgroundColor: "#FD8D3C" }}
+            ></span>{" "}
+            10
+          </li>
+          <li>
+            <span
+              className="inline-block w-4 h-4 mr-2"
+              style={{ backgroundColor: "#FEB24C" }}
+            ></span>{" "}
+            5
+          </li>
+          <li>
+            <span
+              className="inline-block w-4 h-4 mr-2"
+              style={{ backgroundColor: "#FED976" }}
+            ></span>{" "}
+            0-5
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };
