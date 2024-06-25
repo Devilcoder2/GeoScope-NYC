@@ -1,27 +1,42 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import { Map, View } from "ol";
-import TileLayer from "ol/layer/Tile";
-import OSM from "ol/source/OSM";
 import "ol/ol.css";
 
-const MapComponent = () => {
+interface FeatureProperties {
+  name: string;
+  density: number;
+}
+
+interface FeatureGeometry {
+  type: "Polygon" | "MultiPolygon";
+  coordinates: number[][][] | number[][][][];
+}
+
+interface GeoJsonFeature {
+  type: "Feature";
+  id: string;
+  properties: FeatureProperties;
+  geometry: FeatureGeometry;
+}
+
+interface GeoJsonData {
+  type: "FeatureCollection";
+  features: GeoJsonFeature[];
+}
+
+const MapComponent: React.FC = () => {
+  const [geoJsonData, setGeoJsonData] = useState<GeoJsonData | null>(null);
+
+  const fetchapi = async () => {
+    const res = await fetch(
+      "https://openlayers.org/data/vector/us-states.json"
+    );
+    const data: GeoJsonData = await res.json();
+    setGeoJsonData(data);
+  };
+
   useEffect(() => {
-    const osmLayer = new TileLayer({
-      preload: Infinity,
-      source: new OSM(),
-    });
-
-    const map = new Map({
-      target: "map",
-      layers: [osmLayer],
-      view: new View({
-        center: [0, 0],
-        zoom: 0,
-      }),
-    });
-
-    return () => map.setTarget(null);
+    fetchapi();
   }, []);
 
   return <div id="map" className="w-[100vw] h-[100vh]"></div>;
