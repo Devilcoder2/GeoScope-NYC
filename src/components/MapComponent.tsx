@@ -33,22 +33,20 @@ interface GeoJsonData {
 const MapComponent: React.FC = () => {
   const [geoJsonData, setGeoJsonData] = useState<GeoJsonData | null>(null);
 
-  const fetchapi = async () => {
-    const res = await fetch(
-      "https://openlayers.org/data/vector/us-states.json"
-    );
-    const data: GeoJsonData = await res.json();
-    setGeoJsonData(data);
-  };
-
   useEffect(() => {
-    fetchapi();
+    const fetchApi = async () => {
+      const res = await fetch(
+        "https://openlayers.org/data/vector/us-states.json"
+      );
+      const data: GeoJsonData = await res.json();
+      setGeoJsonData(data);
+    };
+
+    fetchApi();
   }, []);
 
   useEffect(() => {
     if (geoJsonData) {
-      console.log(geoJsonData);
-
       const vectorSource = new VectorSource({
         features: new GeoJSON().readFeatures(geoJsonData, {
           featureProjection: "EPSG:3857",
@@ -69,11 +67,20 @@ const MapComponent: React.FC = () => {
         ],
         view: new View({
           center: [0, 0],
-          zoom: 2,
+          zoom: 1,
         }),
       });
 
-      return () => map.setTarget(null);
+      map.on("click", (event) => {
+        const clickedCoordinate = event.coordinate;
+        if (clickedCoordinate) {
+          map.getView().setCenter(clickedCoordinate);
+        }
+      });
+
+      return () => {
+        map.setTarget(null);
+      };
     }
   }, [geoJsonData]);
 
