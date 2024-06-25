@@ -108,6 +108,8 @@ const MapComponent: React.FC = () => {
             popoverRef.current.style.left = left;
             popoverRef.current.style.top = top;
           }
+        } else {
+          setPopOverVisibe(false);
         }
       };
 
