@@ -1,5 +1,11 @@
+import MapComponent from "./components/MapComponent";
+
 const App = () => {
-  return <div className="bg-red-500">App</div>;
+  return (
+    <div className="">
+      <MapComponent />
+    </div>
+  );
 };
 
 export default App;
