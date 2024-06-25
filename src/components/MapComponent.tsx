@@ -5,6 +5,7 @@ import OSM from "ol/source/OSM";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
+import { toStringXY } from "ol/coordinate";
 
 import "ol/ol.css";
 
@@ -71,7 +72,21 @@ const MapComponent: React.FC = () => {
         }),
       });
 
+      const handleHover = (event) => {
+        const feature = map.forEachFeatureAtPixel(event.pixel, (feature) => {
+          return feature;
+        });
+
+        if (feature) {
+          const properties = feature.getProperties();
+          console.log("Hovered Feature Properties", properties);
+        }
+      };
+
+      map.on("pointermove", handleHover);
+
       return () => {
+        map.un("pointermove", handleHover);
         map.setTarget(null);
       };
     }
