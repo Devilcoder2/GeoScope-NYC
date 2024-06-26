@@ -1,14 +1,10 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
-
-  const loginHandler = () => {
-    setIsLogin(true);
-  };
+  const navigate = useNavigate();
 
   const logoutHandler = () => {
-    setIsLogin(false);
+    navigate("/login");
   };
 
   return (
@@ -18,8 +14,7 @@ const Header = () => {
       </div>
 
       <div>
-        {!isLogin && <button onClick={loginHandler}>Login</button>}
-        {isLogin && <button onClick={logoutHandler}>Logout</button>}
+        <button onClick={logoutHandler}>Logout</button>
       </div>
     </div>
   );

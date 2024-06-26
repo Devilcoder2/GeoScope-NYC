@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import login from "./assets/login.svg";
 import register from "./assets/register.svg";
+import { useNavigate } from "react-router-dom";
 
 interface UserInfo {
   email: string;
@@ -16,6 +17,8 @@ const Login: React.FC = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  const navigate = useNavigate();
+
   const signInHandler = () => {
     setIsSignUpMode(false);
   };
@@ -24,7 +27,8 @@ const Login: React.FC = () => {
     setIsSignUpMode(true);
   };
 
-  const loginHandler = async () => {
+  const loginHandler = async (e) => {
+    e.preventDefault();
     const username = usernameRef?.current?.value?.trim();
     const password = passwordRef?.current?.value?.trim();
 
@@ -51,9 +55,11 @@ const Login: React.FC = () => {
     if (user.length === 0) {
       setIsError(true);
       setErrorMessage("Wrong username or password");
+      return;
     }
 
     //redirect to the home page
+    navigate("/");
   };
 
   const changeHandler = () => {
