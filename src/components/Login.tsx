@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, MouseEvent } from "react";
 import login from "./assets/login.svg";
 import register from "./assets/register.svg";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
     setIsSignUpMode(true);
   };
 
-  const loginHandler = async (e) => {
+  const loginHandler = async (e: MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
     const username = usernameRef?.current?.value?.trim();
     const password = passwordRef?.current?.value?.trim();
