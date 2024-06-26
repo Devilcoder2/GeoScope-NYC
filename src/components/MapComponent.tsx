@@ -202,7 +202,7 @@ const MapComponent: React.FC = () => {
 
           if (popoverRef.current) {
             const pixel = map.getPixelFromCoordinate(coordinates);
-            const left = pixel[0] + 5 + "px";
+            const left = pixel[0] - 45 + "px";
             const top = pixel[1] - 60 + "px";
 
             popoverRef.current.style.left = left;
@@ -345,12 +345,9 @@ const MapComponent: React.FC = () => {
 
         {/* Hover Effect */}
         {popoverVisible && (
-          <div
-            ref={popoverRef}
-            className="absolute bg-white border border-solid border-black p-3 z-50 pointer-events-none"
-          >
+          <div ref={popoverRef} className="absolute bg-white ol-popup">
             <div className="text-sm leading-3">
-              <h3>{popoverContent && popoverContent.name}</h3>
+              <h3 className="mb-2 ">{popoverContent && popoverContent.name}</h3>
               <h3>Density: {popoverContent && popoverContent.density}</h3>
             </div>
           </div>
