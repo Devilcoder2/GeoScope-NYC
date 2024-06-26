@@ -5,7 +5,7 @@ import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
 import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
-import { Fill, Stroke, Style } from "ol/style";
+import { Fill, Stroke, Style, Text } from "ol/style";
 import { FeatureLike } from "ol/Feature.js";
 import {
   FullScreen,
@@ -114,7 +114,9 @@ const MapComponent: React.FC = () => {
         style: (feature: FeatureLike) => {
           const density = feature.get("density");
           const color = getColorForDensity(density);
-          return new Style({
+
+          // Style for the polygon
+          const style = new Style({
             fill: new Fill({
               color: color,
             }),
@@ -123,6 +125,24 @@ const MapComponent: React.FC = () => {
               width: 0.5,
             }),
           });
+
+          // Text style for the state name
+          const text = feature.get("name");
+          if (text) {
+            style.setText(
+              new Text({
+                text: text,
+                font: "12px Calibri,sans-serif",
+                fill: new Fill({ color: "#fff" }),
+                offsetX: 0,
+                offsetY: -10,
+                textAlign: "center",
+                textBaseline: "middle",
+              })
+            );
+          }
+
+          return style;
         },
       });
 
