@@ -11,6 +11,7 @@ import Legend from "./Legend.js";
 
 import { FeatureLike } from "ol/Feature.js";
 import "ol/ol.css";
+import Header from "./Header.js";
 
 interface FeatureProperties {
   name: string;
@@ -151,7 +152,9 @@ const MapComponent: React.FC = () => {
 
   return (
     <div>
-      <div className="w-[100vw] h-[10vh]">HEADER</div>
+      <div className="w-[100vw] h-[10vh]">
+        <Header />
+      </div>
 
       <div className="flex">
         <div className="w-[20vw]">SIDEBAR</div>
