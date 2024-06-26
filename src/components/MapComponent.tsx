@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, ChangeEvent } from "react";
 
 import { Map, MapBrowserEvent, View } from "ol";
 import GeoJSON from "ol/format/GeoJSON";
@@ -54,6 +54,8 @@ const MapComponent: React.FC = () => {
 
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(true);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
+
+  const [scaleLineUnit, setScaleLineUnit] = useState("degrees");
 
   const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -119,7 +121,7 @@ const MapComponent: React.FC = () => {
         }),
         controls: defaultControls().extend([
           new FullScreen(),
-          new ScaleLine({}),
+          new ScaleLine({ units: scaleLineUnit }),
         ]),
       });
 
@@ -163,7 +165,7 @@ const MapComponent: React.FC = () => {
         map.setTarget(undefined);
       };
     }
-  }, [geoJsonData]);
+  }, [geoJsonData, scaleLineUnit]);
 
   const closeSideBarHandler = () => {
     setIsAnimating(true);
@@ -179,6 +181,10 @@ const MapComponent: React.FC = () => {
     setTimeout(() => {
       setIsAnimating(false);
     }, 750); // Match the CSS animation duration
+  };
+
+  const unitsHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    setScaleLineUnit(e.target.value);
   };
 
   return (
@@ -200,6 +206,18 @@ const MapComponent: React.FC = () => {
             >
               <MdKeyboardDoubleArrowLeft />
             </button>
+
+            <div>
+              <select name="units" id="units" onChange={unitsHandler}>
+                <option value="degrees">degrees</option>
+                <option value="imperial">imperial inch</option>
+                <option value="us">us inch</option>
+                <option value="nautical">nautical mile</option>
+                <option value="metric" selected>
+                  metric
+                </option>
+              </select>
+            </div>
           </div>
         </div>
 
