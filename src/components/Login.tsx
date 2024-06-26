@@ -2,6 +2,12 @@ import { useState, useRef } from "react";
 import login from "./assets/login.svg";
 import register from "./assets/register.svg";
 
+interface UserInfo {
+  email: string;
+  password: string;
+  id: string;
+}
+
 const Login: React.FC = () => {
   const [isSignUpMode, setIsSignUpMode] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(true);
@@ -32,7 +38,22 @@ const Login: React.FC = () => {
       "https://667a9e54bd627f0dcc8fc55b.mockapi.io/api/v1/login/Login"
     );
 
-    const data = await res.json();
+    const data: UserInfo[] = await res.json();
+    const currUser = {
+      email: username,
+      password: password,
+    };
+
+    const user = data.filter(
+      (t) => t.email === currUser.email && t.password === currUser.password
+    );
+
+    if (user.length === 0) {
+      setIsError(true);
+      setErrorMessage("Wrong username or password");
+    }
+
+    //redirect to the home page
   };
 
   const changeHandler = () => {
@@ -79,8 +100,8 @@ const Login: React.FC = () => {
             />
 
             {isError && (
-              <div className="ml-20 ">
-                <h1 className="w-40 text-red-600">{errorMessage}</h1>
+              <div className="text-center ">
+                <h1 className="w-60 text-red-600">{errorMessage}</h1>
               </div>
             )}
 
