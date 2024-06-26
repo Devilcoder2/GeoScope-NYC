@@ -15,6 +15,8 @@ import {
   ZoomSlider,
 } from "ol/control.js";
 import { fromLonLat } from "ol/proj.js";
+import { AnimationOptions } from "ol/View.js";
+import { Units } from "ol/control/ScaleLine.js";
 
 import Legend from "./Legend.js";
 import Header from "./Header.js";
@@ -50,7 +52,7 @@ interface GeoJsonData {
 
 const newYork = fromLonLat([-73.935242, 40.73061]);
 
-const elastic = (t) => {
+const elastic = (t: number) => {
   return (
     Math.pow(2, -10 * t) * Math.sin(((t - 0.075) * (2 * Math.PI)) / 0.3) + 1
   );
@@ -65,11 +67,13 @@ const MapComponent: React.FC = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(true);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
-  const [scaleLineUnit, setScaleLineUnit] = useState("degrees");
+  const [scaleLineUnit, setScaleLineUnit] = useState<Units | undefined>(
+    "degrees"
+  );
   const [isZoomScaledOn, setIsZoomScaledOn] = useState<boolean>(true);
 
   const popoverRef = useRef<HTMLDivElement>(null);
-  const viewRef = useRef();
+  const viewRef = useRef<View | null>(null);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -204,14 +208,14 @@ const MapComponent: React.FC = () => {
   };
 
   const unitsHandler = (e: ChangeEvent<HTMLSelectElement>) => {
-    setScaleLineUnit(e.target.value);
+    setScaleLineUnit(e.target.value as Units);
   };
 
   const zoomSliderHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setIsZoomScaledOn(e.target.checked);
   };
 
-  const animateView = (options) => {
+  const animateView = (options: AnimationOptions) => {
     viewRef?.current?.animate(options);
   };
 
