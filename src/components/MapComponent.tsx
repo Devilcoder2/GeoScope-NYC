@@ -57,6 +57,7 @@ const MapComponent: React.FC = () => {
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   const [scaleLineUnit, setScaleLineUnit] = useState("degrees");
+  const [isZoomScaledOn, setIsZoomScaledOn] = useState<boolean>(true);
 
   const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -123,9 +124,12 @@ const MapComponent: React.FC = () => {
         controls: defaultControls().extend([
           new FullScreen(),
           new ScaleLine({ units: scaleLineUnit }),
-          new ZoomSlider(),
         ]),
       });
+
+      if (isZoomScaledOn) {
+        map.addControl(new ZoomSlider());
+      }
 
       const handleHover = (event: MapBrowserEvent<PointerEvent>) => {
         const feature = map.forEachFeatureAtPixel(event.pixel, (feature) => {
@@ -167,7 +171,7 @@ const MapComponent: React.FC = () => {
         map.setTarget(undefined);
       };
     }
-  }, [geoJsonData, scaleLineUnit]);
+  }, [geoJsonData, scaleLineUnit, isZoomScaledOn]);
 
   const closeSideBarHandler = () => {
     setIsAnimating(true);
@@ -187,6 +191,10 @@ const MapComponent: React.FC = () => {
 
   const unitsHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     setScaleLineUnit(e.target.value);
+  };
+
+  const zoomSliderHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsZoomScaledOn(e.target.checked);
   };
 
   return (
@@ -219,6 +227,17 @@ const MapComponent: React.FC = () => {
                   metric
                 </option>
               </select>
+            </div>
+
+            <div>
+              <label htmlFor="zoomSlider">ZoomSlider</label>
+              <input
+                type="checkbox"
+                name="zoomSlider"
+                id="zoomSlider"
+                onChange={zoomSliderHandler}
+                checked={isZoomScaledOn}
+              />
             </div>
           </div>
         </div>
