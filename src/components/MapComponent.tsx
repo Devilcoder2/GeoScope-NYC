@@ -13,6 +13,11 @@ import { FeatureLike } from "ol/Feature.js";
 import "ol/ol.css";
 import Header from "./Header.js";
 
+import {
+  MdKeyboardDoubleArrowRight,
+  MdKeyboardDoubleArrowLeft,
+} from "react-icons/md";
+
 interface FeatureProperties {
   name: string;
   density: number;
@@ -171,14 +176,24 @@ const MapComponent: React.FC = () => {
         >
           {isSideBarOpen && (
             <div>
-              <button onClick={closeSideBarHandler}>Close</button>
+              <button
+                className="text-3xl text-white ml-44 mt-2"
+                onClick={closeSideBarHandler}
+              >
+                <MdKeyboardDoubleArrowLeft />
+              </button>
             </div>
           )}
         </div>
 
         {!isSideBarOpen && (
           <div className="w-[10vw] h-[80vh] mt-7 mr-3 bg-white">
-            <button onClick={openSideBarHandler}>Open</button>
+            <button
+              className="text-3xl bg-[#3590F0] -ml-3 pl-1 pr-2 rounded-r-lg text-white "
+              onClick={openSideBarHandler}
+            >
+              <MdKeyboardDoubleArrowRight />
+            </button>
           </div>
         )}
 
