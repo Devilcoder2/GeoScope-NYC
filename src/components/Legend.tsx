@@ -1,56 +1,56 @@
 const Legend = () => {
   return (
-    <div className="bg-blue-50 ">
-      <h3 className="text-sm font-bold ">Density Legend</h3>
-      <ul className="text-xs">
-        <li>
+    <div className="">
+      <h3 className="text-sm font-semibold mb-2">Density Legend</h3>
+      <ul className="text-sm">
+        <li className="mt-1">
           <span
             className="inline-block w-4 h-4 mr-2"
             style={{ backgroundColor: "#13202D" }}
           ></span>{" "}
-          200
+          &gt; 200
         </li>
-        <li>
+        <li className="mt-1">
           <span
             className="inline-block w-4 h-4 mr-2"
             style={{ backgroundColor: "#14293D" }}
           ></span>{" "}
-          100
+          &gt; 100
         </li>
-        <li>
+        <li className="mt-1">
           <span
             className="inline-block w-4 h-4 mr-2"
             style={{ backgroundColor: "#16304D" }}
           ></span>{" "}
-          50
+          &gt; 50
         </li>
-        <li>
+        <li className="mt-1">
           <span
             className="inline-block w-4 h-4 mr-2"
             style={{ backgroundColor: "#1D365C" }}
           ></span>{" "}
-          20
+          &gt; 20
         </li>
-        <li>
+        <li className="mt-1">
           <span
             className="inline-block w-4 h-4 mr-2"
             style={{ backgroundColor: "#243A6B" }}
           ></span>{" "}
-          10
+          &gt; 10
         </li>
-        <li>
+        <li className="mt-1">
           <span
             className="inline-block w-4 h-4 mr-2"
             style={{ backgroundColor: "#2A417B" }}
           ></span>{" "}
-          5
+          &gt; 5
         </li>
-        <li>
+        <li className="mt-1">
           <span
             className="inline-block w-4 h-4 mr-2"
             style={{ backgroundColor: "#2B448C" }}
           ></span>{" "}
-          0-5
+          &gt; 0-5
         </li>
       </ul>
     </div>

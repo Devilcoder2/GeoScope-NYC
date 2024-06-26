@@ -60,6 +60,8 @@ const elastic = (t: number) => {
 
 const MapComponent: React.FC = () => {
   const [geoJsonData, setGeoJsonData] = useState<GeoJsonData | null>(null);
+  const [filteredGeoJsonData, setFilteredGeoJsonData] =
+    useState<GeoJsonData | null>(null);
   const [popoverVisible, setPopoverVisible] = useState<boolean>(false);
   const [popoverContent, setPopoverContent] =
     useState<FeatureProperties | null>(null);
@@ -85,6 +87,7 @@ const MapComponent: React.FC = () => {
       );
       const data: GeoJsonData = await res.json();
       setGeoJsonData(data);
+      setFilteredGeoJsonData(data);
     };
 
     fetchApi();
@@ -104,7 +107,7 @@ const MapComponent: React.FC = () => {
   useEffect(() => {
     if (geoJsonData) {
       const vectorSource = new VectorSource({
-        features: new GeoJSON().readFeatures(geoJsonData, {
+        features: new GeoJSON().readFeatures(filteredGeoJsonData, {
           featureProjection: "EPSG:3857",
         }),
       });
@@ -241,7 +244,13 @@ const MapComponent: React.FC = () => {
         map.setTarget(undefined);
       };
     }
-  }, [geoJsonData, scaleLineUnit, isZoomScaledOn, isoverViewMapOn]);
+  }, [
+    geoJsonData,
+    scaleLineUnit,
+    isZoomScaledOn,
+    isoverViewMapOn,
+    filteredGeoJsonData,
+  ]);
 
   const closeSideBarHandler = () => {
     setIsAnimating(true);
@@ -281,6 +290,23 @@ const MapComponent: React.FC = () => {
 
   const showLegendHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setShowLegend(e.target.checked);
+  };
+
+  const filterHandler = (n: number) => {
+    if (geoJsonData !== null) {
+      const newFeatures = geoJsonData.features.filter((t) => {
+        return t.properties.density > n;
+      });
+
+      setFilteredGeoJsonData(() => {
+        const newGeoJsonData: GeoJsonData = {
+          type: "FeatureCollection",
+          features: newFeatures,
+        };
+
+        return newGeoJsonData;
+      });
+    }
   };
 
   return (
@@ -360,6 +386,24 @@ const MapComponent: React.FC = () => {
                 checked={showLegend}
               />
             </div>
+
+            <div>
+              <button
+                onClick={() => {
+                  filterHandler(0);
+                }}
+              >
+                All
+              </button>
+
+              <button
+                onClick={() => {
+                  filterHandler(200);
+                }}
+              >
+                Greater than 200
+              </button>
+            </div>
           </div>
         </div>
 
@@ -391,7 +435,7 @@ const MapComponent: React.FC = () => {
 
         {/* Legends */}
         {showLegend && (
-          <div className="absolute bottom-14 left-2 bg-white p-2 border border-solid border-black">
+          <div className="absolute bottom-14 left-2 bg-white p-2 border border-solid border-black rounded-lg">
             <Legend />
           </div>
         )}
