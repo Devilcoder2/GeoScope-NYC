@@ -1,8 +1,7 @@
 const Legend = () => {
   return (
-    <div>
-      {" "}
-      <h3 className="text-sm font-bold">Density Legend</h3>
+    <div className="bg-blue-50">
+      <h3 className="text-sm font-bold ">Density Legend</h3>
       <ul className="text-xs">
         <li>
           <span

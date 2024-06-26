@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+
 import { Map, MapBrowserEvent, View } from "ol";
 import GeoJSON from "ol/format/GeoJSON";
 import TileLayer from "ol/layer/Tile";
@@ -5,13 +7,13 @@ import VectorLayer from "ol/layer/Vector";
 import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
 import { Fill, Stroke, Style } from "ol/style";
-import { useEffect, useRef, useState } from "react";
+import { FeatureLike } from "ol/Feature.js";
+import { FullScreen, defaults as defaultControls } from "ol/control.js";
 
 import Legend from "./Legend.js";
-
-import { FeatureLike } from "ol/Feature.js";
-import "ol/ol.css";
 import Header from "./Header.js";
+
+import "ol/ol.css";
 
 import {
   MdKeyboardDoubleArrowRight,
@@ -47,6 +49,7 @@ const MapComponent: React.FC = () => {
     useState<FeatureProperties | null>(null);
 
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(true);
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -110,6 +113,7 @@ const MapComponent: React.FC = () => {
           center: [-11542437.750890903, 4862581.061116328],
           zoom: 4,
         }),
+        controls: defaultControls().extend([new FullScreen()]),
       });
 
       const handleHover = (event: MapBrowserEvent<PointerEvent>) => {
@@ -155,69 +159,75 @@ const MapComponent: React.FC = () => {
   }, [geoJsonData]);
 
   const closeSideBarHandler = () => {
+    setIsAnimating(true);
     setIsSideBarOpen(false);
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 300); // Match the CSS animation duration
   };
 
   const openSideBarHandler = () => {
+    setIsAnimating(true);
     setIsSideBarOpen(true);
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 750); // Match the CSS animation duration
   };
 
   return (
-    <div className="  ">
-      <div className="w-[100vw] h-[10vh]">
+    <div className="grid grid-cols-12 grid-rows-12 pb-2 gap-2 w-screen h-screen">
+      <div className="col-span-12 row-span-1">
         <Header />
       </div>
 
-      <div className="flex">
+      <div className="col-span-2 row-span-11 relative">
         <div
           className={`${
             isSideBarOpen ? "open-sidebar" : "close-sidebar"
-          } w-[14vw] h-[80vh] mt-7 mr-3 bg-[#3590F0] rounded-r-lg transition-width duration-500`}
+          } w-full h-full bg-[#3590F0] rounded-r-lg absolute`}
         >
-          {isSideBarOpen && (
-            <div>
-              <button
-                className="text-3xl text-white ml-44 mt-2"
-                onClick={closeSideBarHandler}
-              >
-                <MdKeyboardDoubleArrowLeft />
-              </button>
-            </div>
-          )}
+          <div>
+            <button
+              className="text-3xl text-white ml-52 mt-1"
+              onClick={closeSideBarHandler}
+            >
+              <MdKeyboardDoubleArrowLeft />
+            </button>
+          </div>
         </div>
 
-        {!isSideBarOpen && (
-          <div className="w-[10vw] h-[80vh] mt-7 mr-3 bg-white">
+        {!isSideBarOpen && !isAnimating && (
+          <div className="h-[90vh] bg-white absolute left-0 top-0">
             <button
-              className="text-3xl bg-[#3590F0] -ml-3 pl-1 pr-2 rounded-r-lg text-white "
+              className="text-3xl bg-[#3590F0] px-1 rounded-r-lg text-white"
               onClick={openSideBarHandler}
             >
               <MdKeyboardDoubleArrowRight />
             </button>
           </div>
         )}
+      </div>
 
-        <div className="relative w-[80vw]  h-[90vh]">
-          {/* Map will be rendered here */}
-          <div id="map" className="w-full  h-full"></div>
+      <div className="relative col-span-10 row-span-11">
+        {/* Map will be rendered here */}
+        <div id="map" className="w-full h-full"></div>
 
-          {/* Hover Effect */}
-          {popoverVisible && (
-            <div
-              ref={popoverRef}
-              className="absolute bg-white border border-solid border-black p-3 z-50 pointer-events-none"
-            >
-              <div className="text-sm leading-3">
-                <h3>{popoverContent && popoverContent.name}</h3>
-                <h3>Density: {popoverContent && popoverContent.density}</h3>
-              </div>
+        {/* Hover Effect */}
+        {popoverVisible && (
+          <div
+            ref={popoverRef}
+            className="absolute bg-white border border-solid border-black p-3 z-50 pointer-events-none"
+          >
+            <div className="text-sm leading-3">
+              <h3>{popoverContent && popoverContent.name}</h3>
+              <h3>Density: {popoverContent && popoverContent.density}</h3>
             </div>
-          )}
-
-          {/* Legends  */}
-          <div className="absolute bottom-4 left-4 bg-white p-2 border border-solid border-black">
-            <Legend />
           </div>
+        )}
+
+        {/* Legends */}
+        <div className="absolute bottom-4 left-4 bg-white p-2 border border-solid border-black">
+          <Legend />
         </div>
       </div>
     </div>
