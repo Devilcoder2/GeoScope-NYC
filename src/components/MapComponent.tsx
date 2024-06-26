@@ -150,26 +150,34 @@ const MapComponent: React.FC = () => {
   }, [geoJsonData]);
 
   return (
-    <div className="relative w-[100vw] h-[100vh]">
-      {/* Map will be rendered here */}
-      <div id="map" className="w-full h-full"></div>
+    <div>
+      <div className="w-[100vw] h-[10vh]">HEADER</div>
 
-      {/* Hover Effect */}
-      {popoverVisible && (
-        <div
-          ref={popoverRef}
-          className="absolute bg-white border border-solid border-black p-3 z-50 pointer-events-none"
-        >
-          <div className="text-sm leading-3">
-            <h3>{popoverContent && popoverContent.name}</h3>
-            <h3>Density: {popoverContent && popoverContent.density}</h3>
+      <div className="flex">
+        <div className="w-[20vw]">SIDEBAR</div>
+
+        <div className="relative w-[80vw] h-[90vh]">
+          {/* Map will be rendered here */}
+          <div id="map" className="w-full h-full"></div>
+
+          {/* Hover Effect */}
+          {popoverVisible && (
+            <div
+              ref={popoverRef}
+              className="absolute bg-white border border-solid border-black p-3 z-50 pointer-events-none"
+            >
+              <div className="text-sm leading-3">
+                <h3>{popoverContent && popoverContent.name}</h3>
+                <h3>Density: {popoverContent && popoverContent.density}</h3>
+              </div>
+            </div>
+          )}
+
+          {/* Legends  */}
+          <div className="absolute bottom-4 left-4 bg-white p-2 border border-solid border-black">
+            <Legend />
           </div>
         </div>
-      )}
-
-      {/* Legends  */}
-      <div className="absolute bottom-4 left-4 bg-white p-2 border border-solid border-black">
-        <Legend />
       </div>
     </div>
   );
