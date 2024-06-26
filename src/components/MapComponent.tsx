@@ -6,7 +6,6 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 import { Feature } from "ol";
-import { Polygon } from "ol/geom";
 import { Style, Fill, Stroke } from "ol/style";
 
 import "ol/ol.css";
@@ -55,13 +54,13 @@ const MapComponent: React.FC = () => {
 
   const getColorForDensity = (density: number): string => {
     // Define a color scale based on density
-    if (density > 200) return "#1E3F66";
-    if (density > 100) return "#2E5984";
-    if (density > 50) return "#528AAE";
-    if (density > 20) return "#73A5C6";
-    if (density > 10) return "#9EC0E7";
-    if (density > 5) return "#BCD2E8";
-    return "#7BC0F2";
+    if (density > 200) return "#13202D";
+    if (density > 100) return "#14293D";
+    if (density > 50) return "#16304D";
+    if (density > 20) return "#1D365C";
+    if (density > 10) return "#243A6B";
+    if (density > 5) return "#2A417B";
+    return "#2B448C";
   };
 
   useEffect(() => {
@@ -83,7 +82,7 @@ const MapComponent: React.FC = () => {
             }),
             stroke: new Stroke({
               color: "#000",
-              width: 1,
+              width: 0.5,
             }),
           });
         },
@@ -103,7 +102,7 @@ const MapComponent: React.FC = () => {
         }),
       });
 
-      const handleHover = (event) => {
+      const handleHover = (event: any) => {
         const feature = map.forEachFeatureAtPixel(event.pixel, (feature) => {
           return feature;
         });
@@ -162,55 +161,64 @@ const MapComponent: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* if (density > 200) return "#13202D";
+    if (density > 100) return "#14293D";
+    if (density > 50) return "#16304D";
+    if (density > 20) return "#1D365C";
+    if (density > 10) return "#243A6B";
+    if (density > 5) return "#2A417B";
+    return "#2B448C"; */}
+
       <div className="absolute bottom-4 left-4 bg-white p-2 border border-solid border-black">
         <h3 className="text-sm font-bold">Density Legend</h3>
         <ul className="text-xs">
           <li>
             <span
               className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#800026" }}
+              style={{ backgroundColor: "#13202D" }}
             ></span>{" "}
             200
           </li>
           <li>
             <span
               className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#BD0026" }}
+              style={{ backgroundColor: "#14293D" }}
             ></span>{" "}
             100
           </li>
           <li>
             <span
               className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#E31A1C" }}
+              style={{ backgroundColor: "#16304D" }}
             ></span>{" "}
             50
           </li>
           <li>
             <span
               className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#FC4E2A" }}
+              style={{ backgroundColor: "#1D365C" }}
             ></span>{" "}
             20
           </li>
           <li>
             <span
               className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#FD8D3C" }}
+              style={{ backgroundColor: "#243A6B" }}
             ></span>{" "}
             10
           </li>
           <li>
             <span
               className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#FEB24C" }}
+              style={{ backgroundColor: "#2A417B" }}
             ></span>{" "}
             5
           </li>
           <li>
             <span
               className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#FED976" }}
+              style={{ backgroundColor: "#2B448C" }}
             ></span>{" "}
             0-5
           </li>
