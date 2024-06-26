@@ -18,15 +18,21 @@ const Login: React.FC = () => {
     setIsSignUpMode(true);
   };
 
-  const loginHandler = () => {
+  const loginHandler = async () => {
     const username = usernameRef?.current?.value?.trim();
     const password = passwordRef?.current?.value?.trim();
 
     if (username?.length === 0 || password?.length === 0) {
-      console.log("here");
       setIsError(true);
       setErrorMessage("Fill All Fields");
+      return;
     }
+
+    const res = await fetch(
+      "https://667a9e54bd627f0dcc8fc55b.mockapi.io/api/v1/login/Login"
+    );
+
+    const data = await res.json();
   };
 
   const changeHandler = () => {
