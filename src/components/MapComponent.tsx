@@ -12,6 +12,7 @@ import {
   FullScreen,
   defaults as defaultControls,
   ScaleLine,
+  ZoomSlider,
 } from "ol/control.js";
 
 import Legend from "./Legend.js";
@@ -122,6 +123,7 @@ const MapComponent: React.FC = () => {
         controls: defaultControls().extend([
           new FullScreen(),
           new ScaleLine({ units: scaleLineUnit }),
+          new ZoomSlider(),
         ]),
       });
 
