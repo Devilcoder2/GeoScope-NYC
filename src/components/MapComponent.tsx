@@ -72,6 +72,7 @@ const MapComponent: React.FC = () => {
   );
   const [isZoomScaledOn, setIsZoomScaledOn] = useState<boolean>(true);
   const [isoverViewMapOn, setIsOverViewMapOn] = useState<boolean>(true);
+  const [showLegend, setShowLegend] = useState<boolean>(true);
 
   const popoverRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<View | null>(null);
@@ -258,6 +259,10 @@ const MapComponent: React.FC = () => {
     setIsOverViewMapOn(e.target.checked);
   };
 
+  const showLegendHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setShowLegend(e.target.checked);
+  };
+
   return (
     <div className="grid grid-cols-12 grid-rows-12 pb-2 gap-2 w-screen h-screen">
       <div className="col-span-12 row-span-1">
@@ -324,6 +329,17 @@ const MapComponent: React.FC = () => {
                 checked={isoverViewMapOn}
               />
             </div>
+
+            <div className="">
+              <label htmlFor="showLegend">Show Legend</label>
+              <input
+                type="checkbox"
+                name="showLegend"
+                id="showLegend"
+                onChange={showLegendHandler}
+                checked={showLegend}
+              />
+            </div>
           </div>
         </div>
 
@@ -354,9 +370,11 @@ const MapComponent: React.FC = () => {
         )}
 
         {/* Legends */}
-        {/* <div className="absolute bottom-14 left-2 bg-white p-2 border border-solid border-black">
-          <Legend />
-        </div> */}
+        {showLegend && (
+          <div className="absolute bottom-14 left-2 bg-white p-2 border border-solid border-black">
+            <Legend />
+          </div>
+        )}
       </div>
     </div>
   );
