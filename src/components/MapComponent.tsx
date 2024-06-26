@@ -165,6 +165,13 @@ const MapComponent: React.FC = () => {
 
       mapRef.current = map;
 
+      map.on("loadstart", function () {
+        map.getTargetElement().classList.add("spinner");
+      });
+      map.on("loadend", function () {
+        map.getTargetElement().classList.remove("spinner");
+      });
+
       if (isZoomScaledOn) {
         map.addControl(new ZoomSlider());
       }
