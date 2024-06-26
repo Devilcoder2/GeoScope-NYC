@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, ChangeEvent } from "react";
-
 import { Map, MapBrowserEvent, View } from "ol";
 import GeoJSON from "ol/format/GeoJSON";
 import TileLayer from "ol/layer/Tile";
@@ -13,6 +12,7 @@ import {
   defaults as defaultControls,
   ScaleLine,
   ZoomSlider,
+  OverviewMap,
 } from "ol/control.js";
 import { fromLonLat } from "ol/proj.js";
 import { AnimationOptions } from "ol/View.js";
@@ -68,12 +68,14 @@ const MapComponent: React.FC = () => {
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   const [scaleLineUnit, setScaleLineUnit] = useState<Units | undefined>(
-    "degrees"
+    "metric"
   );
   const [isZoomScaledOn, setIsZoomScaledOn] = useState<boolean>(true);
+  const [isoverViewMapOn, setIsOverViewMapOn] = useState<boolean>(true);
 
   const popoverRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<View | null>(null);
+  const mapRef = useRef<Map | undefined>(undefined);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -130,6 +132,22 @@ const MapComponent: React.FC = () => {
 
       viewRef.current = view;
 
+      const overviewMapControl = new OverviewMap({
+        className: "ol-overviewmap ol-custom-overviewmap",
+        layers: [
+          new TileLayer({
+            source: new OSM({
+              url:
+                "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png" +
+                "?apikey=07fc353cad414368a54104c13b3a84ab",
+            }),
+          }),
+        ],
+        collapseLabel: "\u00BB",
+        label: "\u00AB",
+        collapsed: false,
+      });
+
       const map = new Map({
         target: "map",
         layers: [
@@ -145,8 +163,14 @@ const MapComponent: React.FC = () => {
         ]),
       });
 
+      mapRef.current = map;
+
       if (isZoomScaledOn) {
         map.addControl(new ZoomSlider());
+      }
+
+      if (isoverViewMapOn) {
+        map.addControl(overviewMapControl);
       }
 
       const handleHover = (event: MapBrowserEvent<PointerEvent>) => {
@@ -189,7 +213,7 @@ const MapComponent: React.FC = () => {
         map.setTarget(undefined);
       };
     }
-  }, [geoJsonData, scaleLineUnit, isZoomScaledOn]);
+  }, [geoJsonData, scaleLineUnit, isZoomScaledOn, isoverViewMapOn]);
 
   const closeSideBarHandler = () => {
     setIsAnimating(true);
@@ -223,6 +247,10 @@ const MapComponent: React.FC = () => {
     animateView({ center: newYork, duration: 2000, easing: elastic, zoom: 6 });
   };
 
+  const overViewMapHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsOverViewMapOn(e.target.checked);
+  };
+
   return (
     <div className="grid grid-cols-12 grid-rows-12 pb-2 gap-2 w-screen h-screen">
       <div className="col-span-12 row-span-1">
@@ -244,14 +272,17 @@ const MapComponent: React.FC = () => {
             </button>
 
             <div>
-              <select name="units" id="units" onChange={unitsHandler}>
+              <select
+                name="units"
+                id="units"
+                onChange={unitsHandler}
+                defaultValue={"metric"}
+              >
                 <option value="degrees">degrees</option>
                 <option value="imperial">imperial inch</option>
                 <option value="us">us inch</option>
                 <option value="nautical">nautical mile</option>
-                <option value="metric" selected>
-                  metric
-                </option>
+                <option value="metric">metric</option>
               </select>
             </div>
 
@@ -274,6 +305,17 @@ const MapComponent: React.FC = () => {
               >
                 Go to new york
               </button>
+            </div>
+
+            <div className="">
+              <label htmlFor="overViewMap">Over View Map</label>
+              <input
+                type="checkbox"
+                name="overViewMap"
+                id="overViewMap"
+                onChange={overViewMapHandler}
+                checked={isoverViewMapOn}
+              />
             </div>
           </div>
         </div>
@@ -308,9 +350,9 @@ const MapComponent: React.FC = () => {
         )}
 
         {/* Legends */}
-        <div className="absolute bottom-14 left-2 bg-white p-2 border border-solid border-black">
+        {/* <div className="absolute bottom-14 left-2 bg-white p-2 border border-solid border-black">
           <Legend />
-        </div>
+        </div> */}
       </div>
     </div>
   );
