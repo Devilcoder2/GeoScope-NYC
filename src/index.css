@@ -367,3 +367,14 @@ form.sign-in-form {
     left: 50%;
   }
 }
+
+/* styles for the sidebar transition */
+.open-sidebar {
+  width: 14vw;
+  transition: width 0.75s ease-out;
+}
+
+.close-sidebar {
+  width: 0;
+  transition: width 0.3s ease-in;
+}

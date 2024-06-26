@@ -41,6 +41,8 @@ const MapComponent: React.FC = () => {
   const [popoverContent, setPopoverContent] =
     useState<FeatureProperties | null>(null);
 
+  const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(true);
+
   const popoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -126,12 +128,9 @@ const MapComponent: React.FC = () => {
           setPopoverVisible(true);
 
           if (popoverRef.current) {
-            const mapElement = map.getTargetElement();
-            const mapRect = mapElement.getBoundingClientRect();
-
             const pixel = map.getPixelFromCoordinate(coordinates);
-            const left = pixel[0] - mapRect.left + "px";
-            const top = pixel[1] - mapRect.top + "px";
+            const left = pixel[0] + 5 + "px";
+            const top = pixel[1] - 60 + "px";
 
             popoverRef.current.style.left = left;
             popoverRef.current.style.top = top;
@@ -150,18 +149,42 @@ const MapComponent: React.FC = () => {
     }
   }, [geoJsonData]);
 
+  const closeSideBarHandler = () => {
+    setIsSideBarOpen(false);
+  };
+
+  const openSideBarHandler = () => {
+    setIsSideBarOpen(true);
+  };
+
   return (
-    <div>
+    <div className="  ">
       <div className="w-[100vw] h-[10vh]">
         <Header />
       </div>
 
       <div className="flex">
-        <div className="w-[20vw]">SIDEBAR</div>
+        <div
+          className={`${
+            isSideBarOpen ? "open-sidebar" : "close-sidebar"
+          } w-[14vw] h-[80vh] mt-7 mr-3 bg-[#3590F0] rounded-r-lg transition-width duration-500`}
+        >
+          {isSideBarOpen && (
+            <div>
+              <button onClick={closeSideBarHandler}>Close</button>
+            </div>
+          )}
+        </div>
 
-        <div className="relative w-[80vw] h-[90vh]">
+        {!isSideBarOpen && (
+          <div className="w-[10vw] h-[80vh] mt-7 mr-3 bg-white">
+            <button onClick={openSideBarHandler}>Open</button>
+          </div>
+        )}
+
+        <div className="relative w-[80vw]  h-[90vh]">
           {/* Map will be rendered here */}
-          <div id="map" className="w-full h-full"></div>
+          <div id="map" className="w-full  h-full"></div>
 
           {/* Hover Effect */}
           {popoverVisible && (
