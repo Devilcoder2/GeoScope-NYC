@@ -8,7 +8,11 @@ import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
 import { Fill, Stroke, Style } from "ol/style";
 import { FeatureLike } from "ol/Feature.js";
-import { FullScreen, defaults as defaultControls } from "ol/control.js";
+import {
+  FullScreen,
+  defaults as defaultControls,
+  ScaleLine,
+} from "ol/control.js";
 
 import Legend from "./Legend.js";
 import Header from "./Header.js";
@@ -113,7 +117,10 @@ const MapComponent: React.FC = () => {
           center: [-11542437.750890903, 4862581.061116328],
           zoom: 4,
         }),
-        controls: defaultControls().extend([new FullScreen()]),
+        controls: defaultControls().extend([
+          new FullScreen(),
+          new ScaleLine({}),
+        ]),
       });
 
       const handleHover = (event: MapBrowserEvent<PointerEvent>) => {
@@ -226,7 +233,7 @@ const MapComponent: React.FC = () => {
         )}
 
         {/* Legends */}
-        <div className="absolute bottom-4 left-4 bg-white p-2 border border-solid border-black">
+        <div className="absolute bottom-14 left-2 bg-white p-2 border border-solid border-black">
           <Legend />
         </div>
       </div>
