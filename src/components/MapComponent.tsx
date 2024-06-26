@@ -14,6 +14,7 @@ import {
   ScaleLine,
   ZoomSlider,
 } from "ol/control.js";
+import { fromLonLat } from "ol/proj.js";
 
 import Legend from "./Legend.js";
 import Header from "./Header.js";
@@ -47,6 +48,14 @@ interface GeoJsonData {
   features: GeoJsonFeature[];
 }
 
+const newYork = fromLonLat([-73.935242, 40.73061]);
+
+const elastic = (t) => {
+  return (
+    Math.pow(2, -10 * t) * Math.sin(((t - 0.075) * (2 * Math.PI)) / 0.3) + 1
+  );
+};
+
 const MapComponent: React.FC = () => {
   const [geoJsonData, setGeoJsonData] = useState<GeoJsonData | null>(null);
   const [popoverVisible, setPopoverVisible] = useState<boolean>(false);
@@ -60,6 +69,7 @@ const MapComponent: React.FC = () => {
   const [isZoomScaledOn, setIsZoomScaledOn] = useState<boolean>(true);
 
   const popoverRef = useRef<HTMLDivElement>(null);
+  const viewRef = useRef();
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -109,6 +119,13 @@ const MapComponent: React.FC = () => {
         },
       });
 
+      const view = new View({
+        center: [-11542437.750890903, 4862581.061116328],
+        zoom: 4,
+      });
+
+      viewRef.current = view;
+
       const map = new Map({
         target: "map",
         layers: [
@@ -117,10 +134,7 @@ const MapComponent: React.FC = () => {
           }),
           vectorLayer,
         ],
-        view: new View({
-          center: [-11542437.750890903, 4862581.061116328],
-          zoom: 4,
-        }),
+        view: view,
         controls: defaultControls().extend([
           new FullScreen(),
           new ScaleLine({ units: scaleLineUnit }),
@@ -197,6 +211,14 @@ const MapComponent: React.FC = () => {
     setIsZoomScaledOn(e.target.checked);
   };
 
+  const animateView = (options) => {
+    viewRef?.current?.animate(options);
+  };
+
+  const elasticToNewYork = () => {
+    animateView({ center: newYork, duration: 2000, easing: elastic, zoom: 6 });
+  };
+
   return (
     <div className="grid grid-cols-12 grid-rows-12 pb-2 gap-2 w-screen h-screen">
       <div className="col-span-12 row-span-1">
@@ -238,6 +260,16 @@ const MapComponent: React.FC = () => {
                 onChange={zoomSliderHandler}
                 checked={isZoomScaledOn}
               />
+            </div>
+
+            <div>
+              <button
+                onClick={() => {
+                  elasticToNewYork();
+                }}
+              >
+                Go to new york
+              </button>
             </div>
           </div>
         </div>
