@@ -4,6 +4,8 @@ import register from "./assets/register.svg";
 
 const Login: React.FC = () => {
   const [isSignUpMode, setIsSignUpMode] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -17,9 +19,18 @@ const Login: React.FC = () => {
   };
 
   const loginHandler = () => {
-    console.log(usernameRef?.current?.value);
-    console.log(passwordRef?.current?.value);
-    console.log("clicked");
+    const username = usernameRef?.current?.value?.trim();
+    const password = passwordRef?.current?.value?.trim();
+
+    if (username?.length === 0 || password?.length === 0) {
+      console.log("here");
+      setIsError(true);
+      setErrorMessage("Fill All Fields");
+    }
+  };
+
+  const changeHandler = () => {
+    setIsError(false);
   };
 
   return (
@@ -36,12 +47,22 @@ const Login: React.FC = () => {
             </h2>
             <div className="input-field">
               <i className="fas fa-user"></i>
-              <input ref={usernameRef} type="text" placeholder="Username" />
+              <input
+                ref={usernameRef}
+                onChange={changeHandler}
+                type="text"
+                placeholder="Username"
+              />
             </div>
 
             <div className="input-field">
               <i className="fas fa-lock"></i>
-              <input ref={passwordRef} type="password" placeholder="Password" />
+              <input
+                ref={passwordRef}
+                onChange={changeHandler}
+                type="password"
+                placeholder="Password"
+              />
             </div>
 
             <input
@@ -50,6 +71,12 @@ const Login: React.FC = () => {
               onClick={loginHandler}
               className="btn solid"
             />
+
+            {isError && (
+              <div className="ml-20 ">
+                <h1 className="w-40 text-red-600">{errorMessage}</h1>
+              </div>
+            )}
 
             <p className="social-text">Or Sign in with social platforms</p>
             <div className="social-media">
