@@ -1,13 +1,15 @@
-import { useEffect, useState, useRef } from "react";
-import { Map, View } from "ol";
-import TileLayer from "ol/layer/Tile";
-import OSM from "ol/source/OSM";
-import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
+import { Map, MapBrowserEvent, View } from "ol";
 import GeoJSON from "ol/format/GeoJSON";
-import { Feature } from "ol";
-import { Style, Fill, Stroke } from "ol/style";
+import TileLayer from "ol/layer/Tile";
+import VectorLayer from "ol/layer/Vector";
+import OSM from "ol/source/OSM";
+import VectorSource from "ol/source/Vector";
+import { Fill, Stroke, Style } from "ol/style";
+import { useEffect, useRef, useState } from "react";
 
+import Legend from "./Legend.js";
+
+import { FeatureLike } from "ol/Feature.js";
 import "ol/ol.css";
 
 interface FeatureProperties {
@@ -73,7 +75,7 @@ const MapComponent: React.FC = () => {
 
       const vectorLayer = new VectorLayer({
         source: vectorSource,
-        style: (feature: Feature) => {
+        style: (feature: FeatureLike) => {
           const density = feature.get("density");
           const color = getColorForDensity(density);
           return new Style({
@@ -102,7 +104,7 @@ const MapComponent: React.FC = () => {
         }),
       });
 
-      const handleHover = (event: any) => {
+      const handleHover = (event: MapBrowserEvent<PointerEvent>) => {
         const feature = map.forEachFeatureAtPixel(event.pixel, (feature) => {
           return feature;
         });
@@ -142,14 +144,17 @@ const MapComponent: React.FC = () => {
 
       return () => {
         map.un("pointermove", handleHover);
-        map.setTarget(null);
+        map.setTarget(undefined);
       };
     }
   }, [geoJsonData]);
 
   return (
     <div className="relative w-[100vw] h-[100vh]">
+      {/* Map will be rendered here */}
       <div id="map" className="w-full h-full"></div>
+
+      {/* Hover Effect */}
       {popoverVisible && (
         <div
           ref={popoverRef}
@@ -162,67 +167,9 @@ const MapComponent: React.FC = () => {
         </div>
       )}
 
-      {/* if (density > 200) return "#13202D";
-    if (density > 100) return "#14293D";
-    if (density > 50) return "#16304D";
-    if (density > 20) return "#1D365C";
-    if (density > 10) return "#243A6B";
-    if (density > 5) return "#2A417B";
-    return "#2B448C"; */}
-
+      {/* Legends  */}
       <div className="absolute bottom-4 left-4 bg-white p-2 border border-solid border-black">
-        <h3 className="text-sm font-bold">Density Legend</h3>
-        <ul className="text-xs">
-          <li>
-            <span
-              className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#13202D" }}
-            ></span>{" "}
-            200
-          </li>
-          <li>
-            <span
-              className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#14293D" }}
-            ></span>{" "}
-            100
-          </li>
-          <li>
-            <span
-              className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#16304D" }}
-            ></span>{" "}
-            50
-          </li>
-          <li>
-            <span
-              className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#1D365C" }}
-            ></span>{" "}
-            20
-          </li>
-          <li>
-            <span
-              className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#243A6B" }}
-            ></span>{" "}
-            10
-          </li>
-          <li>
-            <span
-              className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#2A417B" }}
-            ></span>{" "}
-            5
-          </li>
-          <li>
-            <span
-              className="inline-block w-4 h-4 mr-2"
-              style={{ backgroundColor: "#2B448C" }}
-            ></span>{" "}
-            0-5
-          </li>
-        </ul>
+        <Legend />
       </div>
     </div>
   );
