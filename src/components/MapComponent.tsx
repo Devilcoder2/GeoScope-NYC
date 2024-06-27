@@ -51,6 +51,8 @@ interface GeoJsonData {
   features: GeoJsonFeature[];
 }
 
+type GeometryType = "Point" | "LineString" | "Polygon" | "Circle" | "None";
+
 const newYork = fromLonLat([-73.935242, 40.73061]);
 
 const elastic = (t: number) => {
@@ -74,7 +76,7 @@ const MapComponent: React.FC = () => {
     "metric"
   );
 
-  const [currentGeometry, setCurrentGeometry] = useState<string>("None");
+  const [currentGeometry, setCurrentGeometry] = useState<GeometryType>("None");
 
   const [isZoomScaledOn, setIsZoomScaledOn] = useState<boolean>(false);
   const [isoverViewMapOn, setIsOverViewMapOn] = useState<boolean>(false);
@@ -357,8 +359,9 @@ const MapComponent: React.FC = () => {
     }
   };
 
-  const geoChangeHandler = (e) => {
-    setCurrentGeometry(e.target.value);
+  const geoChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const newGeo: GeometryType = e.target.value as GeometryType;
+    setCurrentGeometry(newGeo);
   };
 
   return (
