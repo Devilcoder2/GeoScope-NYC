@@ -17,6 +17,7 @@ import {
 import { fromLonLat } from "ol/proj.js";
 import { AnimationOptions } from "ol/View.js";
 import { Units } from "ol/control/ScaleLine.js";
+import { Draw, Modify, Snap } from "ol/interaction.js";
 
 import Legend from "./Legend.js";
 import Header from "./Header.js";
@@ -72,6 +73,9 @@ const MapComponent: React.FC = () => {
   const [scaleLineUnit, setScaleLineUnit] = useState<Units | undefined>(
     "metric"
   );
+
+  const [currentGeometry, setCurrentGeometry] = useState<string>("None");
+
   const [isZoomScaledOn, setIsZoomScaledOn] = useState<boolean>(false);
   const [isoverViewMapOn, setIsOverViewMapOn] = useState<boolean>(false);
   const [showLegend, setShowLegend] = useState<boolean>(true);
@@ -150,6 +154,18 @@ const MapComponent: React.FC = () => {
         },
       });
 
+      const drawSource = new VectorSource();
+      const drawVector = new VectorLayer({
+        source: drawSource,
+        style: {
+          "fill-color": "rgba(255, 255, 255, 0.2)",
+          "stroke-color": "#ffcc33",
+          "stroke-width": 2,
+          "circle-radius": 7,
+          "circle-fill-color": "#ffcc33",
+        },
+      });
+
       const view = new View({
         center: [-11542437.750890903, 4862581.061116328],
         zoom: 4,
@@ -180,6 +196,7 @@ const MapComponent: React.FC = () => {
             source: new OSM(),
           }),
           vectorLayer,
+          drawVector,
         ],
         view: view,
         controls: defaultControls().extend([
@@ -196,6 +213,26 @@ const MapComponent: React.FC = () => {
       map.on("loadend", function () {
         map.getTargetElement().classList.remove("spinner");
       });
+
+      const modify = new Modify({ source: drawSource });
+      map.addInteraction(modify);
+
+      let draw, snap;
+
+      const addInteractions = () => {
+        if (currentGeometry !== "None") {
+          draw = new Draw({
+            source: drawSource,
+            type: currentGeometry,
+          });
+          snap = new Snap({ source: drawSource });
+
+          map.addInteraction(draw);
+          map.addInteraction(snap);
+        }
+      };
+
+      addInteractions();
 
       if (isZoomScaledOn) {
         map.addControl(new ZoomSlider());
@@ -238,7 +275,9 @@ const MapComponent: React.FC = () => {
         }
       };
 
-      map.on("pointermove", handleHover);
+      if (currentGeometry === "None") {
+        map.on("pointermove", handleHover);
+      }
 
       return () => {
         map.un("pointermove", handleHover);
@@ -251,6 +290,7 @@ const MapComponent: React.FC = () => {
     isZoomScaledOn,
     isoverViewMapOn,
     filteredGeoJsonData,
+    currentGeometry,
   ]);
 
   const closeSideBarHandler = () => {
@@ -315,6 +355,10 @@ const MapComponent: React.FC = () => {
       const val = inputRef.current.value;
       filterHandler(Number(val));
     }
+  };
+
+  const geoChangeHandler = (e) => {
+    setCurrentGeometry(e.target.value);
   };
 
   return (
@@ -498,6 +542,65 @@ const MapComponent: React.FC = () => {
                 <option value="nautical">Nautical mile</option>
                 <option value="metric">Metric</option>
               </select>
+            </div>
+
+            <div className="mt-4" id="type">
+              <label htmlFor="type" className="block text-white mb-2">
+                Geometry type
+              </label>
+
+              <div>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="geometryType"
+                    value="None"
+                    className="form-radio text-blue-600"
+                    onChange={geoChangeHandler}
+                    defaultChecked
+                  />
+                  <span className="ml-2 text-white">None</span>
+                </label>
+              </div>
+
+              <div>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="geometryType"
+                    value="Point"
+                    className="form-radio text-blue-600"
+                    onChange={geoChangeHandler}
+                  />
+                  <span className="ml-2 text-white">Point</span>
+                </label>
+              </div>
+
+              <div>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="geometryType"
+                    value="Polygon"
+                    className="form-radio text-blue-600"
+                    onChange={geoChangeHandler}
+                  />
+                  <span className="ml-2 text-white">Polygon</span>
+                </label>
+              </div>
+
+              <div>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="geometryType"
+                    value="Circle"
+                    className="form-radio text-blue-600"
+                    onChange={geoChangeHandler}
+                  />
+                  <span className="ml-2 text-white">Circle</span>
+                </label>
+              </div>
             </div>
           </div>
         </div>
