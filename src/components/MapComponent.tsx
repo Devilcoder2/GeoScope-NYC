@@ -389,7 +389,7 @@ const MapComponent: React.FC = () => {
               </h1>
             </div>
 
-            <div className="mt-6 flex items-center checkbox-wrapper-12 ml-5">
+            <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5">
               <div className="cbx">
                 <input
                   type="checkbox"
@@ -426,7 +426,7 @@ const MapComponent: React.FC = () => {
               </svg>
             </div>
 
-            <div className="mt-6 flex items-center checkbox-wrapper-12 ml-5">
+            <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5">
               <div className="cbx">
                 <input
                   type="checkbox"
@@ -463,7 +463,7 @@ const MapComponent: React.FC = () => {
               </svg>
             </div>
 
-            <div className="mt-6 flex items-center checkbox-wrapper-12 ml-5">
+            <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5">
               <div className="cbx">
                 <input
                   type="checkbox"
@@ -501,7 +501,7 @@ const MapComponent: React.FC = () => {
               </svg>
             </div>
 
-            <div className="mt-8 ml-5">
+            <div className="mt-6 ml-5">
               <button
                 onClick={() => {
                   elasticToNewYork();
@@ -512,7 +512,7 @@ const MapComponent: React.FC = () => {
               </button>
             </div>
 
-            <div className="mt-8 flex flex-col items-start space-y-1 ml-5">
+            <div className="mt-6 flex flex-col items-start space-y-1 ml-5">
               <input
                 ref={inputRef}
                 type="number"
@@ -527,7 +527,7 @@ const MapComponent: React.FC = () => {
               </button>
             </div>
 
-            <div className="mt-8  ml-5">
+            <div className="mt-6 ml-5">
               <h1 className="text-white  text-[1.1rem]">Scale Line Units</h1>
               <select
                 name="units"
@@ -544,62 +544,67 @@ const MapComponent: React.FC = () => {
               </select>
             </div>
 
-            <div className="mt-4" id="type">
-              <label htmlFor="type" className="block text-white mb-2">
+            <div className="mt-6 " id="type">
+              <label
+                htmlFor="type"
+                className="block text-[1.1rem]  ml-5 text-white mb-2"
+              >
                 Geometry type
               </label>
 
-              <div>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="geometryType"
-                    value="None"
-                    className="form-radio text-blue-600"
-                    onChange={geoChangeHandler}
-                    defaultChecked
-                  />
-                  <span className="ml-2 text-white">None</span>
-                </label>
-              </div>
+              <div className="-mt-1">
+                <div className="ml-1">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="geometryType"
+                      value="None"
+                      className="form-radio visually-hidden"
+                      onChange={geoChangeHandler}
+                      defaultChecked
+                    />
+                    <span className="radio-style ml-2">None</span>
+                  </label>
+                </div>
 
-              <div>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="geometryType"
-                    value="Point"
-                    className="form-radio text-blue-600"
-                    onChange={geoChangeHandler}
-                  />
-                  <span className="ml-2 text-white">Point</span>
-                </label>
-              </div>
+                <div className="ml-1">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="geometryType"
+                      value="Point"
+                      className="form-radio visually-hidden"
+                      onChange={geoChangeHandler}
+                    />
+                    <span className="radio-style ml-2">Point</span>
+                  </label>
+                </div>
 
-              <div>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="geometryType"
-                    value="Polygon"
-                    className="form-radio text-blue-600"
-                    onChange={geoChangeHandler}
-                  />
-                  <span className="ml-2 text-white">Polygon</span>
-                </label>
-              </div>
+                <div className="ml-1">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="geometryType"
+                      value="Polygon"
+                      className="form-radio visually-hidden"
+                      onChange={geoChangeHandler}
+                    />
+                    <span className="radio-style ml-2">Polygon</span>
+                  </label>
+                </div>
 
-              <div>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="geometryType"
-                    value="Circle"
-                    className="form-radio text-blue-600"
-                    onChange={geoChangeHandler}
-                  />
-                  <span className="ml-2 text-white">Circle</span>
-                </label>
+                <div className="ml-1">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="geometryType"
+                      value="Circle"
+                      className="form-radio visually-hidden"
+                      onChange={geoChangeHandler}
+                    />
+                    <span className="radio-style ml-2">Circle</span>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
