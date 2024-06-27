@@ -159,10 +159,10 @@ const MapComponent: React.FC = () => {
         source: drawSource,
         style: {
           "fill-color": "rgba(255, 255, 255, 0.2)",
-          "stroke-color": "#ffcc33",
+          "stroke-color": "#2eca6f",
           "stroke-width": 2,
           "circle-radius": 7,
-          "circle-fill-color": "#ffcc33",
+          "circle-fill-color": "#2eca6f",
         },
       });
 
@@ -364,18 +364,24 @@ const MapComponent: React.FC = () => {
   return (
     <div className="grid grid-cols-12 grid-rows-12 pb-2 gap-2 w-screen h-screen">
       {/* HEADER */}
-      <div className="col-span-12 row-span-1">
+      <div className="col-span-12 row-span-1  bg-[#3590F0] py-2 ">
         <Header />
       </div>
 
       {/* SIDEBAR */}
-      <div className="col-span-2 row-span-11 relative">
+      <div
+        className={`relative row-span-3 col-span-12   ${
+          isSideBarOpen
+            ? "lg:row-span-11 lg:col-span-2 sm:row-span-3 sm:col-span-12"
+            : "lg:col-span-1 lg:row-span-12 sm:row-span-1 sm:col-span-12 row-span-1 col-span-12"
+        }`}
+      >
         <div
           className={`${
-            isSideBarOpen ? "open-sidebar" : "close-sidebar"
+            isSideBarOpen ? "open-sidebar" : "close-sidebar "
           } w-full h-full bg-[#3590F0] rounded-r-lg absolute`}
         >
-          <div className="">
+          <div className={`${isSideBarOpen ? "" : " hidden"}`}>
             <button
               className="text-3xl text-white ml-52 mt-1"
               onClick={closeSideBarHandler}
@@ -506,7 +512,7 @@ const MapComponent: React.FC = () => {
                 onClick={() => {
                   elasticToNewYork();
                 }}
-                className="bg-white px-4 py-2 rounded-lg text-[#3590F0] hover:bg-[#2eca6f] outline-none active:text-white hover:text-white transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 active:bg-[#2edb6f]"
+                className="bg-white px-4 py-2 rounded-lg text-[#2eca6f] hover:bg-[#2eca6f] outline-none active:text-white hover:text-white transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 active:bg-[#2edb6f]"
               >
                 Go to New York
               </button>
@@ -521,7 +527,7 @@ const MapComponent: React.FC = () => {
               />
               <button
                 onClick={searchHandler}
-                className="bg-white  px-4 py-2 rounded-lg text-[#3590F0] hover:bg-[#2eca6f] outline-none active:text-white hover:text-white transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 active:bg-[#2edb6f]"
+                className="bg-white  px-4 py-2 rounded-lg text-[#2eca6f] hover:bg-[#2eca6f] outline-none active:text-white hover:text-white transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 active:bg-[#2edb6f]"
               >
                 Search
               </button>
@@ -534,7 +540,7 @@ const MapComponent: React.FC = () => {
                 id="units"
                 onChange={unitsHandler}
                 defaultValue={"metric"}
-                className="rounded-lg px-2 py-2 -ml-1 mt-1 white text-[#3590F0] focus:outline-none focus:ring-2 focus:ring-[#3590F0]"
+                className="rounded-lg px-2 py-2 -ml-1 mt-1 white text-[#2eca6f] focus:outline-none focus:ring-2 focus:ring-[#3590F0]"
               >
                 <option value="degrees">Degrees</option>
                 <option value="imperial">Imperial inch</option>
@@ -611,7 +617,7 @@ const MapComponent: React.FC = () => {
         </div>
 
         {!isSideBarOpen && !isAnimating && (
-          <div className="h-[90vh] bg-white absolute left-0 top-0">
+          <div className="h-[0]  bg-white absolute left-0 top-0">
             <button
               className="text-3xl bg-[#3590F0] px-1 rounded-r-lg text-white"
               onClick={openSideBarHandler}
@@ -623,7 +629,13 @@ const MapComponent: React.FC = () => {
       </div>
 
       {/* MAP */}
-      <div className="relative col-span-10 row-span-11">
+      <div
+        className={`relative  row-span-8 col-span-12  ${
+          isSideBarOpen
+            ? "lg:row-span-11 lg:col-span-10 sm:row-span-8 sm:col-span-12"
+            : "lg:col-span-11 lg:row-span-12 sm:row-span-10 sm:col-span-12 row-span-10 col-span-12"
+        }`}
+      >
         {/* Map will be rendered here */}
         <div id="map" className="w-full h-full"></div>
 
