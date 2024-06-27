@@ -375,7 +375,7 @@ const MapComponent: React.FC = () => {
       <div
         className={`relative    ${
           isSideBarOpen
-            ? "lg:row-span-11 lg:col-span-2 sm:row-span-3 sm:col-span-12 row-span-3 col-span-12"
+            ? "lg:row-span-11 lg:col-span-2 sm:row-span-3 sm:col-span-12 row-span-5 col-span-12"
             : "lg:col-span-1 lg:row-span-12 sm:row-span-1 sm:col-span-12 row-span-1 col-span-12"
         }`}
       >
@@ -393,164 +393,170 @@ const MapComponent: React.FC = () => {
             </button>
 
             <div className="absolute top-2 left-5">
-              <h1 className="text-white text-lg font-semibold">
+              <h1 className="text-white text-sm md:text-lg font-semibold">
                 CONTROL PANEL
               </h1>
             </div>
 
-            <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5">
-              <div className="cbx">
-                <input
-                  type="checkbox"
-                  name="zoomSlider"
-                  id="zoomSlider"
-                  onChange={zoomSliderHandler}
-                  checked={isZoomScaledOn}
-                />
-                <label htmlFor="zoomSlider"></label>
-                <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
-                  <path d="M2 8.36364L6.23077 12L13 2"></path>
-                </svg>
-              </div>
-              <label htmlFor="zoomSlider" className="text-white ml-2">
-                Zoom Slider
-              </label>
-              <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-                <defs>
-                  <filter id="goo-12">
-                    <feGaussianBlur
-                      in="SourceGraphic"
-                      stdDeviation="4"
-                      result="blur"
-                    ></feGaussianBlur>
-                    <feColorMatrix
-                      in="blur"
-                      mode="matrix"
-                      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
-                      result="goo-12"
-                    ></feColorMatrix>
-                    <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
-                  </filter>
-                </defs>
-              </svg>
-            </div>
-
-            <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5">
-              <div className="cbx">
-                <input
-                  type="checkbox"
-                  name="overViewMap"
-                  id="overViewMap"
-                  onChange={overViewMapHandler}
-                  checked={isoverViewMapOn}
-                />
-                <label htmlFor="overViewMap"></label>
-                <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
-                  <path d="M2 8.36364L6.23077 12L13 2"></path>
-                </svg>
-              </div>
-              <label htmlFor="overViewMap" className="text-white ml-2">
-                Over View Map
-              </label>
-              <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-                <defs>
-                  <filter id="goo-12">
-                    <feGaussianBlur
-                      in="SourceGraphic"
-                      stdDeviation="4"
-                      result="blur"
-                    ></feGaussianBlur>
-                    <feColorMatrix
-                      in="blur"
-                      mode="matrix"
-                      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
-                      result="goo-12"
-                    ></feColorMatrix>
-                    <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
-                  </filter>
-                </defs>
-              </svg>
-            </div>
-
-            <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5">
-              <div className="cbx">
-                <input
-                  type="checkbox"
-                  name="showLegend"
-                  id="showLegend"
-                  onChange={showLegendHandler}
-                  checked={showLegend}
-                />
-                <label htmlFor="showLegend"></label>
-                <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
-                  <path d="M2 8.36364L6.23077 12L13 2"></path>
+            <div className="flex justify-between  -mt-3 text-sm lg:text-base lg:block lg:mt-0">
+              <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5">
+                <div className="cbx">
+                  <input
+                    type="checkbox"
+                    name="zoomSlider"
+                    id="zoomSlider"
+                    onChange={zoomSliderHandler}
+                    checked={isZoomScaledOn}
+                  />
+                  <label htmlFor="zoomSlider"></label>
+                  <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
+                    <path d="M2 8.36364L6.23077 12L13 2"></path>
+                  </svg>
+                </div>
+                <label htmlFor="zoomSlider" className="text-white ml-2">
+                  Zoom Slider
+                </label>
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                  <defs>
+                    <filter id="goo-12">
+                      <feGaussianBlur
+                        in="SourceGraphic"
+                        stdDeviation="4"
+                        result="blur"
+                      ></feGaussianBlur>
+                      <feColorMatrix
+                        in="blur"
+                        mode="matrix"
+                        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
+                        result="goo-12"
+                      ></feColorMatrix>
+                      <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
+                    </filter>
+                  </defs>
                 </svg>
               </div>
 
-              <label htmlFor="showLegend" className="ml-2 text-white">
-                Show Legend
-              </label>
-              <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-                <defs>
-                  <filter id="goo-12">
-                    <feGaussianBlur
-                      in="SourceGraphic"
-                      stdDeviation="4"
-                      result="blur"
-                    ></feGaussianBlur>
-                    <feColorMatrix
-                      in="blur"
-                      mode="matrix"
-                      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
-                      result="goo-12"
-                    ></feColorMatrix>
-                    <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
-                  </filter>
-                </defs>
-              </svg>
+              <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5">
+                <div className="cbx">
+                  <input
+                    type="checkbox"
+                    name="overViewMap"
+                    id="overViewMap"
+                    onChange={overViewMapHandler}
+                    checked={isoverViewMapOn}
+                  />
+                  <label htmlFor="overViewMap"></label>
+                  <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
+                    <path d="M2 8.36364L6.23077 12L13 2"></path>
+                  </svg>
+                </div>
+                <label htmlFor="overViewMap" className="text-white ml-2">
+                  Over View Map
+                </label>
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                  <defs>
+                    <filter id="goo-12">
+                      <feGaussianBlur
+                        in="SourceGraphic"
+                        stdDeviation="4"
+                        result="blur"
+                      ></feGaussianBlur>
+                      <feColorMatrix
+                        in="blur"
+                        mode="matrix"
+                        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
+                        result="goo-12"
+                      ></feColorMatrix>
+                      <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
+                    </filter>
+                  </defs>
+                </svg>
+              </div>
+
+              <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5 mr-3">
+                <div className="cbx">
+                  <input
+                    type="checkbox"
+                    name="showLegend"
+                    id="showLegend"
+                    onChange={showLegendHandler}
+                    checked={showLegend}
+                  />
+                  <label htmlFor="showLegend"></label>
+                  <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
+                    <path d="M2 8.36364L6.23077 12L13 2"></path>
+                  </svg>
+                </div>
+
+                <label htmlFor="showLegend" className="ml-2 text-white">
+                  Show Legend
+                </label>
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                  <defs>
+                    <filter id="goo-12">
+                      <feGaussianBlur
+                        in="SourceGraphic"
+                        stdDeviation="4"
+                        result="blur"
+                      ></feGaussianBlur>
+                      <feColorMatrix
+                        in="blur"
+                        mode="matrix"
+                        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
+                        result="goo-12"
+                      ></feColorMatrix>
+                      <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
+                    </filter>
+                  </defs>
+                </svg>
+              </div>
             </div>
 
-            <div className="mt-6 ml-5">
-              <button
-                onClick={() => {
-                  elasticToNewYork();
-                }}
-                className="bg-white px-4 py-2 rounded-lg text-[#2eca6f] hover:bg-[#2eca6f] outline-none active:text-white hover:text-white transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 active:bg-[#2edb6f]"
-              >
-                Go to New York
-              </button>
-            </div>
+            <div className="md:flex lg:block mt-5 lg:mt-0">
+              <div className="md:flex lg:block">
+                <div className="mt-4 ml-5 lg:mt-6 lg:ml-5">
+                  <button
+                    onClick={() => {
+                      elasticToNewYork();
+                    }}
+                    className="bg-white px-2 py-1  lg:px-4 lg:py-2 rounded-lg text-[#2eca6f] hover:bg-[#2eca6f] outline-none active:text-white hover:text-white transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 active:bg-[#2edb6f]"
+                  >
+                    Go to New York
+                  </button>
+                </div>
 
-            <div className="mt-6 flex flex-col items-start space-y-1 ml-5">
-              <input
-                ref={inputRef}
-                type="number"
-                placeholder="Enter Population Density "
-                className="px-2 py-2 mb-1 rounded-lg outline-none border-none placeholder:text-gray-500"
-              />
-              <button
-                onClick={searchHandler}
-                className="bg-white  px-4 py-2 rounded-lg text-[#2eca6f] hover:bg-[#2eca6f] outline-none active:text-white hover:text-white transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 active:bg-[#2edb6f]"
-              >
-                Search
-              </button>
-            </div>
+                <div className="md:mt-4  lg:mt-6 flex  lg:flex-col items-start space-x-1 lg:space-y-1 lg:ml-5 md:ml-8 ml-5 mt-2">
+                  <input
+                    ref={inputRef}
+                    type="number"
+                    placeholder="Enter Population Density "
+                    className="px-2 py-1 lg:px-2 lg:py-2 mb-1 rounded-lg outline-none border-none placeholder:text-gray-500"
+                  />
+                  <button
+                    onClick={searchHandler}
+                    className="bg-white  px-2 py-1   lg:px-4 lg:py-2 rounded-lg text-[#2eca6f] hover:bg-[#2eca6f] outline-none active:text-white hover:text-white transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 active:bg-[#2edb6f]"
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
 
-            <div className="mt-6 ml-5">
-              <h1 className="text-white  text-[1.1rem]">Scale Line Units</h1>
-              <select
-                name="units"
-                id="units"
-                onChange={unitsHandler}
-                defaultValue={"metric"}
-                className="rounded-lg px-2 py-2 -ml-1 mt-1 white text-[#2eca6f] focus:outline-none focus:ring-2 focus:ring-[#3590F0]"
-              >
-                <option value="degrees">Degrees</option>
-                <option value="imperial">Imperial inch</option>
-                <option value="us">Us inch</option>
-                <option value="nautical">Nautical mile</option>
-                <option value="metric">Metric</option>
-              </select>
+              <div className="lg:mt-6 lg:ml-5 flex items-center lg:block mt-5 ml-8">
+                <h1 className="text-white  text-[1.1rem]">Scale Line Units</h1>
+                <select
+                  name="units"
+                  id="units"
+                  onChange={unitsHandler}
+                  defaultValue={"metric"}
+                  className="rounded-lg text-sm py-2  lg:text-base px-2 lg:py-2 md:py-1 lg:-ml-1 lg:mt-1 ml-4  md:-mt-1 white text-[#2eca6f] focus:outline-none focus:ring-2 focus:ring-[#3590F0]"
+                >
+                  <option value="degrees">Degrees</option>
+                  <option value="imperial">Imperial inch</option>
+                  <option value="us">Us inch</option>
+                  <option value="nautical">Nautical mile</option>
+                  <option value="metric">Metric</option>
+                </select>
+              </div>
             </div>
 
             <div className="mt-6 " id="type">
@@ -561,7 +567,7 @@ const MapComponent: React.FC = () => {
                 Geometry type
               </label>
 
-              <div className="-mt-1">
+              <div className="lg:-mt-1 flex lg:block">
                 <div className="ml-1">
                   <label className="inline-flex items-center">
                     <input
@@ -635,7 +641,7 @@ const MapComponent: React.FC = () => {
       <div
         className={`relative    ${
           isSideBarOpen
-            ? "lg:row-span-11 lg:col-span-10 sm:row-span-8 sm:col-span-12 row-span-8 col-span-12"
+            ? "lg:row-span-11 lg:col-span-10 sm:row-span-8 sm:col-span-12 row-span-6 col-span-12"
             : "lg:col-span-11 lg:row-span-12 sm:row-span-10 sm:col-span-12 row-span-10 col-span-12"
         }`}
       >
