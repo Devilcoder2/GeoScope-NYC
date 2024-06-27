@@ -72,11 +72,12 @@ const MapComponent: React.FC = () => {
   const [scaleLineUnit, setScaleLineUnit] = useState<Units | undefined>(
     "metric"
   );
-  const [isZoomScaledOn, setIsZoomScaledOn] = useState<boolean>(true);
-  const [isoverViewMapOn, setIsOverViewMapOn] = useState<boolean>(true);
+  const [isZoomScaledOn, setIsZoomScaledOn] = useState<boolean>(false);
+  const [isoverViewMapOn, setIsOverViewMapOn] = useState<boolean>(false);
   const [showLegend, setShowLegend] = useState<boolean>(true);
 
   const popoverRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const viewRef = useRef<View | null>(null);
   const mapRef = useRef<Map | undefined>(undefined);
 
@@ -226,8 +227,8 @@ const MapComponent: React.FC = () => {
 
           if (popoverRef.current) {
             const pixel = map.getPixelFromCoordinate(coordinates);
-            const left = pixel[0] - 45 + "px";
-            const top = pixel[1] - 60 + "px";
+            const left = pixel[0] - 48 + "px";
+            const top = pixel[1] - 75 + "px";
 
             popoverRef.current.style.left = left;
             popoverRef.current.style.top = top;
@@ -309,19 +310,28 @@ const MapComponent: React.FC = () => {
     }
   };
 
+  const searchHandler = () => {
+    if (inputRef.current !== null) {
+      const val = inputRef.current.value;
+      filterHandler(Number(val));
+    }
+  };
+
   return (
     <div className="grid grid-cols-12 grid-rows-12 pb-2 gap-2 w-screen h-screen">
+      {/* HEADER */}
       <div className="col-span-12 row-span-1">
         <Header />
       </div>
 
+      {/* SIDEBAR */}
       <div className="col-span-2 row-span-11 relative">
         <div
           className={`${
             isSideBarOpen ? "open-sidebar" : "close-sidebar"
           } w-full h-full bg-[#3590F0] rounded-r-lg absolute`}
         >
-          <div>
+          <div className="">
             <button
               className="text-3xl text-white ml-52 mt-1"
               onClick={closeSideBarHandler}
@@ -329,80 +339,165 @@ const MapComponent: React.FC = () => {
               <MdKeyboardDoubleArrowLeft />
             </button>
 
-            <div>
+            <div className="absolute top-2 left-5">
+              <h1 className="text-white text-lg font-semibold">
+                CONTROL PANEL
+              </h1>
+            </div>
+
+            <div className="mt-6 flex items-center checkbox-wrapper-12 ml-5">
+              <div className="cbx">
+                <input
+                  type="checkbox"
+                  name="zoomSlider"
+                  id="zoomSlider"
+                  onChange={zoomSliderHandler}
+                  checked={isZoomScaledOn}
+                />
+                <label htmlFor="zoomSlider"></label>
+                <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
+                  <path d="M2 8.36364L6.23077 12L13 2"></path>
+                </svg>
+              </div>
+              <label htmlFor="zoomSlider" className="text-white ml-2">
+                Zoom Slider
+              </label>
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                <defs>
+                  <filter id="goo-12">
+                    <feGaussianBlur
+                      in="SourceGraphic"
+                      stdDeviation="4"
+                      result="blur"
+                    ></feGaussianBlur>
+                    <feColorMatrix
+                      in="blur"
+                      mode="matrix"
+                      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
+                      result="goo-12"
+                    ></feColorMatrix>
+                    <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
+                  </filter>
+                </defs>
+              </svg>
+            </div>
+
+            <div className="mt-6 flex items-center checkbox-wrapper-12 ml-5">
+              <div className="cbx">
+                <input
+                  type="checkbox"
+                  name="overViewMap"
+                  id="overViewMap"
+                  onChange={overViewMapHandler}
+                  checked={isoverViewMapOn}
+                />
+                <label htmlFor="overViewMap"></label>
+                <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
+                  <path d="M2 8.36364L6.23077 12L13 2"></path>
+                </svg>
+              </div>
+              <label htmlFor="overViewMap" className="text-white ml-2">
+                Over View Map
+              </label>
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                <defs>
+                  <filter id="goo-12">
+                    <feGaussianBlur
+                      in="SourceGraphic"
+                      stdDeviation="4"
+                      result="blur"
+                    ></feGaussianBlur>
+                    <feColorMatrix
+                      in="blur"
+                      mode="matrix"
+                      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
+                      result="goo-12"
+                    ></feColorMatrix>
+                    <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
+                  </filter>
+                </defs>
+              </svg>
+            </div>
+
+            <div className="mt-6 flex items-center checkbox-wrapper-12 ml-5">
+              <div className="cbx">
+                <input
+                  type="checkbox"
+                  name="showLegend"
+                  id="showLegend"
+                  onChange={showLegendHandler}
+                  checked={showLegend}
+                />
+                <label htmlFor="showLegend"></label>
+                <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
+                  <path d="M2 8.36364L6.23077 12L13 2"></path>
+                </svg>
+              </div>
+
+              <label htmlFor="showLegend" className="ml-2 text-white">
+                Show Legend
+              </label>
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                <defs>
+                  <filter id="goo-12">
+                    <feGaussianBlur
+                      in="SourceGraphic"
+                      stdDeviation="4"
+                      result="blur"
+                    ></feGaussianBlur>
+                    <feColorMatrix
+                      in="blur"
+                      mode="matrix"
+                      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
+                      result="goo-12"
+                    ></feColorMatrix>
+                    <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
+                  </filter>
+                </defs>
+              </svg>
+            </div>
+
+            <div className="mt-8 ml-5">
+              <button
+                onClick={() => {
+                  elasticToNewYork();
+                }}
+                className="bg-white px-4 py-2 rounded-lg text-[#3590F0] hover:bg-[#2eca6f] outline-none active:text-white hover:text-white transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 active:bg-[#2edb6f]"
+              >
+                Go to New York
+              </button>
+            </div>
+
+            <div className="mt-8 flex flex-col items-start space-y-1 ml-5">
+              <input
+                ref={inputRef}
+                type="number"
+                placeholder="Enter Population Density "
+                className="px-2 py-2 mb-1 rounded-lg outline-none border-none placeholder:text-gray-500"
+              />
+              <button
+                onClick={searchHandler}
+                className="bg-white  px-4 py-2 rounded-lg text-[#3590F0] hover:bg-[#2eca6f] outline-none active:text-white hover:text-white transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 active:bg-[#2edb6f]"
+              >
+                Search
+              </button>
+            </div>
+
+            <div className="mt-8  ml-5">
+              <h1 className="text-white  text-[1.1rem]">Scale Line Units</h1>
               <select
                 name="units"
                 id="units"
                 onChange={unitsHandler}
                 defaultValue={"metric"}
+                className="rounded-lg px-2 py-2 -ml-1 mt-1 white text-[#3590F0] focus:outline-none focus:ring-2 focus:ring-[#3590F0]"
               >
-                <option value="degrees">degrees</option>
-                <option value="imperial">imperial inch</option>
-                <option value="us">us inch</option>
-                <option value="nautical">nautical mile</option>
-                <option value="metric">metric</option>
+                <option value="degrees">Degrees</option>
+                <option value="imperial">Imperial inch</option>
+                <option value="us">Us inch</option>
+                <option value="nautical">Nautical mile</option>
+                <option value="metric">Metric</option>
               </select>
-            </div>
-
-            <div>
-              <label htmlFor="zoomSlider">ZoomSlider</label>
-              <input
-                type="checkbox"
-                name="zoomSlider"
-                id="zoomSlider"
-                onChange={zoomSliderHandler}
-                checked={isZoomScaledOn}
-              />
-            </div>
-
-            <div>
-              <button
-                onClick={() => {
-                  elasticToNewYork();
-                }}
-              >
-                Go to new york
-              </button>
-            </div>
-
-            <div className="">
-              <label htmlFor="overViewMap">Over View Map</label>
-              <input
-                type="checkbox"
-                name="overViewMap"
-                id="overViewMap"
-                onChange={overViewMapHandler}
-                checked={isoverViewMapOn}
-              />
-            </div>
-
-            <div className="">
-              <label htmlFor="showLegend">Show Legend</label>
-              <input
-                type="checkbox"
-                name="showLegend"
-                id="showLegend"
-                onChange={showLegendHandler}
-                checked={showLegend}
-              />
-            </div>
-
-            <div>
-              <button
-                onClick={() => {
-                  filterHandler(0);
-                }}
-              >
-                All
-              </button>
-
-              <button
-                onClick={() => {
-                  filterHandler(200);
-                }}
-              >
-                Greater than 200
-              </button>
             </div>
           </div>
         </div>
@@ -419,6 +514,7 @@ const MapComponent: React.FC = () => {
         )}
       </div>
 
+      {/* MAP */}
       <div className="relative col-span-10 row-span-11">
         {/* Map will be rendered here */}
         <div id="map" className="w-full h-full"></div>
