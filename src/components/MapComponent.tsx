@@ -541,7 +541,7 @@ const MapComponent: React.FC = () => {
                 </div>
               </div>
 
-              <div className="lg:mt-6 lg:ml-5 flex items-center lg:block mt-5 ml-8">
+              <div className="lg:mt-6 lg:ml-5 flex items-center lg:block mt-3 md:ml-8 ml-5">
                 <h1 className="text-white  text-[1.1rem]">Scale Line Units</h1>
                 <select
                   name="units"
@@ -559,7 +559,7 @@ const MapComponent: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-6 " id="type">
+            <div className="lg:mt-6 mt-3 " id="type">
               <label
                 htmlFor="type"
                 className="block text-[1.1rem]  ml-5 text-white mb-2"
@@ -567,7 +567,7 @@ const MapComponent: React.FC = () => {
                 Geometry type
               </label>
 
-              <div className="lg:-mt-1 flex lg:block">
+              <div className="lg:-mt-1 flex lg:block -mt-2">
                 <div className="ml-1">
                   <label className="inline-flex items-center">
                     <input
