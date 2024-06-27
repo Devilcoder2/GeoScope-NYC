@@ -373,20 +373,20 @@ const MapComponent: React.FC = () => {
 
       {/* SIDEBAR */}
       <div
-        className={`relative row-span-3 col-span-12   ${
+        className={`relative    ${
           isSideBarOpen
-            ? "lg:row-span-11 lg:col-span-2 sm:row-span-3 sm:col-span-12"
+            ? "lg:row-span-11 lg:col-span-2 sm:row-span-3 sm:col-span-12 row-span-3 col-span-12"
             : "lg:col-span-1 lg:row-span-12 sm:row-span-1 sm:col-span-12 row-span-1 col-span-12"
         }`}
       >
         <div
           className={`${
             isSideBarOpen ? "open-sidebar" : "close-sidebar "
-          } w-full h-full bg-[#3590F0] rounded-r-lg absolute`}
+          } w-full h-full bg-[#3590F0] lg:rounded-r-lg absolute`}
         >
           <div className={`${isSideBarOpen ? "" : " hidden"}`}>
             <button
-              className="text-3xl text-white ml-52 mt-1"
+              className={`text-3xl text-white lg:ml-52 lg:mt-1 md:ml-60 md:mt-1 ml-48 mt-1`}
               onClick={closeSideBarHandler}
             >
               <MdKeyboardDoubleArrowLeft />
@@ -633,9 +633,9 @@ const MapComponent: React.FC = () => {
 
       {/* MAP */}
       <div
-        className={`relative  row-span-8 col-span-12  ${
+        className={`relative    ${
           isSideBarOpen
-            ? "lg:row-span-11 lg:col-span-10 sm:row-span-8 sm:col-span-12"
+            ? "lg:row-span-11 lg:col-span-10 sm:row-span-8 sm:col-span-12 row-span-8 col-span-12"
             : "lg:col-span-11 lg:row-span-12 sm:row-span-10 sm:col-span-12 row-span-10 col-span-12"
         }`}
       >
