@@ -660,7 +660,7 @@ const MapComponent: React.FC = () => {
 
         {/* Legends */}
         {showLegend && (
-          <div className="absolute bottom-14 left-2 bg-white p-2 border border-solid border-black rounded-lg">
+          <div className="absolute bottom-9 ml-10 lg:bottom-14 lg:left-2 bg-white lg:p-2 w-[80%] lg:w-[10%] border border-solid border-black rounded-lg">
             <Legend />
           </div>
         )}
