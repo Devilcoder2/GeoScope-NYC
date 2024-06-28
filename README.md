@@ -50,7 +50,9 @@ Build a web application using ReactJS and Typescript to visualize New York's pop
 
  ### 8. CI/CD Pipeline and Deployment
 
-- CI/CD pipeline setup; application deployed on AWS S3.
+- Implemented a CI/CD pipeline to automate the build, and deployment processes.
+- Integrated with Git for version control and continuous integration.
+- Application is deployed on AWS S3, ensuring scalability, reliability, and efficient content delivery.
 
 ### 9. Responsive Design
 
