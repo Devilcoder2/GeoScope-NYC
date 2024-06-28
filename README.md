@@ -75,21 +75,21 @@ Build a web application using ReactJS and Typescript to visualize New York's pop
 
 ## Live Link
 
-Link -> http://your-live-link-here
+Link -> http://mapsense.s3-website.ap-south-1.amazonaws.com
 
 ## Run Locally
 
 To run this project locally, follow these steps:
 
 1. Clone the repository:
-   git clone <repository-url>
+   ```git clone https://github.com/Devilcoder2/Mapsense-Task/tree/main```
 
 2. Navigate into the project directory:
-   cd <project-directory>
+   ```cd <project-directory>```
 
 3. Install dependencies:
-   npm install
+   ```npm install```
 
 4. Run the development server:
-   npm run dev
+   ```npm run dev```
 
