@@ -82,3 +82,14 @@ Link -> http://your-live-link-here
 To run this project locally, follow these steps:
 
 1. Clone the repository:
+   git clone <repository-url>
+
+2. Navigate into the project directory:
+   cd <project-directory>
+
+3. Install dependencies:
+   npm install
+
+4. Run the development server:
+   npm run dev
+
