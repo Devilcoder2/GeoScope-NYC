@@ -202,7 +202,7 @@ const MapComponent: React.FC = () => {
         ],
         view: view,
         controls: defaultControls().extend([
-          new FullScreen(),
+          new FullScreen({ className: "custom-fullscreen" }),
           new ScaleLine({ units: scaleLineUnit }),
         ]),
       });
