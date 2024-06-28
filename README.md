@@ -6,7 +6,15 @@ Build a web application using ReactJS and Typescript to visualize New York's pop
 
 ## Techstack Used
 
-React, Typescript, TailwindCSS, React Router DOM, Open Layers, Git, Github, AWS
+- React
+- Typescript
+- TailwindCSS
+- React Router DOM
+- Open Layers
+- Git
+- Github
+- AWS
+
 
 ## Features
 
@@ -36,7 +44,19 @@ React, Typescript, TailwindCSS, React Router DOM, Open Layers, Git, Github, AWS
 - Added spinner effect when the map is loading.
 - Implemented interactive elements (buttons, checkboxes, etc.) for better user experience.
 
-### 7. Additional Features
+### 7. Map Download
+
+- User can download the map in PNG format.
+
+ ### 8. CI/CD Pipeline and Deployment
+
+- CI/CD pipeline setup; application deployed on AWS S3.
+
+### 9. Responsive Design
+
+- The site is fully responsive for both mobile and desktop devices.
+
+### 10. Additional Features
 
 - **Fullscreen Map Option:** User can click the full map button (on the top right corner of the map) to view the map in fullscreen.
 - **Drawing Geometries:** User can choose between different drawing geometries (point, polygon, circle) from the control panel.
@@ -45,17 +65,11 @@ React, Typescript, TailwindCSS, React Router DOM, Open Layers, Git, Github, AWS
 - **Elastic Animation:** Elastic animation when user clicks on 'Go to New York' button.
 - **Zoom Slider:** Toggleable zoom slider from the control panel for easier map zooming.
 
-### 8. Responsive Design
 
-- The site is fully responsive for both mobile and desktop devices.
 
-### 9. Map Download
 
-- User can download the map in PNG format.
 
-### 10. CI/CD Pipeline and Deployment
 
-- CI/CD pipeline setup; application deployed on AWS S3.
 
 ## Live Link
 
