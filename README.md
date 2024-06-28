@@ -77,6 +77,8 @@ Build a web application using ReactJS and Typescript to visualize New York's pop
 
 Link -> http://mapsense.s3-website.ap-south-1.amazonaws.com
 
+Note: The link should start with http:// and not https:// for successful access.
+
 ## Run Locally
 
 To run this project locally, follow these steps:
@@ -92,4 +94,11 @@ To run this project locally, follow these steps:
 
 4. Run the development server:
    ```npm run dev```
+
+## Screenshots of the Application 
+![Screenshot (3515)](https://github.com/Devilcoder2/Mapsense-Task/assets/113927776/2a79850b-8c4f-4a78-9867-af890b9584af)
+![Screenshot (3514)](https://github.com/Devilcoder2/Mapsense-Task/assets/113927776/1b8575da-78a2-45f2-88cb-b4cf0b2cd3fa)
+![Screenshot (3513)](https://github.com/Devilcoder2/Mapsense-Task/assets/113927776/d6f1f0b7-c49e-4ea5-aadc-b2eb9c24aef7)
+![Screenshot (3512)](https://github.com/Devilcoder2/Mapsense-Task/assets/113927776/c15abb7b-e886-447b-962b-7ceee084b006)
+
 
