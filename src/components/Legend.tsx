@@ -1,9 +1,12 @@
 const Legend = () => {
   return (
     <div className="">
+      {/* SUBHEADING  */}
       <h3 className="text-sm font-semibold mb-2 text-center mt-1">
         Density Legend
       </h3>
+
+      {/* LEGEND VALUES  */}
       <ul className="lg:text-sm flex justify-around  space-x-3 lg:block text-[14px] ">
         <li className="mt-1 ml-1 lg:ml-0">
           <span
@@ -12,6 +15,7 @@ const Legend = () => {
           ></span>{" "}
           200
         </li>
+
         <li className="mt-1">
           <span
             className="inline-block lg:w-4 lg:h-4 w-3 h-3 mr-2"
@@ -19,6 +23,7 @@ const Legend = () => {
           ></span>{" "}
           100
         </li>
+
         <li className="mt-1">
           <span
             className="inline-block lg:w-4 lg:h-4 w-3 h-3 mr-2"
@@ -26,6 +31,7 @@ const Legend = () => {
           ></span>{" "}
           50
         </li>
+
         <li className="mt-1">
           <span
             className="inline-block lg:w-4 lg:h-4 w-3 h-3 mr-2"
@@ -33,6 +39,7 @@ const Legend = () => {
           ></span>{" "}
           20
         </li>
+
         <li className="mt-1">
           <span
             className="inline-block lg:w-4 lg:h-4 w-3 h-3 mr-2"
@@ -40,6 +47,7 @@ const Legend = () => {
           ></span>{" "}
           10
         </li>
+
         <li className="mt-1">
           <span
             className="inline-block lg:w-4 lg:h-4 w-3 h-3 mr-2"
@@ -47,6 +55,7 @@ const Legend = () => {
           ></span>{" "}
           5
         </li>
+
         <li className="mt-1">
           <span
             className="inline-block lg:w-4 lg:h-4 w-3 h-3 mr-2"

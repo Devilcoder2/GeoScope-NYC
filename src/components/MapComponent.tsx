@@ -1,12 +1,18 @@
+//IMPORTS FROM REACT & REACT ICON
 import { useEffect, useRef, useState, ChangeEvent } from "react";
+import {
+  MdKeyboardDoubleArrowRight,
+  MdKeyboardDoubleArrowLeft,
+} from "react-icons/md";
+
+// IMPORTS FROM OPEN LAYER
 import { Map, MapBrowserEvent, View } from "ol";
 import GeoJSON from "ol/format/GeoJSON";
-import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
+import TileLayer from "ol/layer/Tile";
+import { AnimationOptions } from "ol/View.js";
 import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
-import { Fill, Stroke, Style, Text } from "ol/style";
-import { FeatureLike } from "ol/Feature.js";
 import {
   FullScreen,
   defaults as defaultControls,
@@ -14,21 +20,18 @@ import {
   ZoomSlider,
   OverviewMap,
 } from "ol/control.js";
-import { fromLonLat } from "ol/proj.js";
-import { AnimationOptions } from "ol/View.js";
 import { Units } from "ol/control/ScaleLine.js";
 import { Draw, Modify, Snap } from "ol/interaction.js";
+import { Fill, Stroke, Style, Text } from "ol/style";
+import { FeatureLike } from "ol/Feature.js";
+import { fromLonLat } from "ol/proj.js";
+import "ol/ol.css";
 
+// COMPONENTS IMPORT
 import Legend from "./Legend.js";
 import Header from "./Header.js";
 
-import "ol/ol.css";
-
-import {
-  MdKeyboardDoubleArrowRight,
-  MdKeyboardDoubleArrowLeft,
-} from "react-icons/md";
-
+//INTERFACE & TYPES
 interface FeatureProperties {
   name: string;
   density: number;
@@ -53,8 +56,10 @@ interface GeoJsonData {
 
 type GeometryType = "Point" | "LineString" | "Polygon" | "Circle" | "None";
 
+// COORDINATES OF STATES OF US
 const newYork = fromLonLat([-73.935242, 40.73061]);
 
+// ELASTIC EFFECT FUNCTION
 const elastic = (t: number) => {
   return (
     Math.pow(2, -10 * t) * Math.sin(((t - 0.075) * (2 * Math.PI)) / 0.3) + 1
@@ -62,31 +67,36 @@ const elastic = (t: number) => {
 };
 
 const MapComponent: React.FC = () => {
+  //Geo JSON Data
   const [geoJsonData, setGeoJsonData] = useState<GeoJsonData | null>(null);
   const [filteredGeoJsonData, setFilteredGeoJsonData] =
     useState<GeoJsonData | null>(null);
+
+  //POPOVER RELATED
   const [popoverVisible, setPopoverVisible] = useState<boolean>(false);
   const [popoverContent, setPopoverContent] =
     useState<FeatureProperties | null>(null);
 
+  //SIDEBAR RELATED
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(true);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
+  //DIFFERENT FUNCTIONALITY RELATED
+  const [currentGeometry, setCurrentGeometry] = useState<GeometryType>("None");
+  const [isZoomScaledOn, setIsZoomScaledOn] = useState<boolean>(false);
+  const [isoverViewMapOn, setIsOverViewMapOn] = useState<boolean>(false);
+  const [showLegend, setShowLegend] = useState<boolean>(true);
   const [scaleLineUnit, setScaleLineUnit] = useState<Units | undefined>(
     "metric"
   );
 
-  const [currentGeometry, setCurrentGeometry] = useState<GeometryType>("None");
-
-  const [isZoomScaledOn, setIsZoomScaledOn] = useState<boolean>(false);
-  const [isoverViewMapOn, setIsOverViewMapOn] = useState<boolean>(false);
-  const [showLegend, setShowLegend] = useState<boolean>(true);
-
+  //REFS
   const popoverRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const viewRef = useRef<View | null>(null);
   const mapRef = useRef<Map | undefined>(undefined);
 
+  //FOR FETECHING DATA
   useEffect(() => {
     const fetchApi = async () => {
       const res = await fetch(
@@ -100,25 +110,15 @@ const MapComponent: React.FC = () => {
     fetchApi();
   }, []);
 
-  const getColorForDensity = (density: number): string => {
-    // Define a color scale based on density
-    if (density > 200) return "#13202D";
-    if (density > 100) return "#14293D";
-    if (density > 50) return "#16304D";
-    if (density > 20) return "#1D365C";
-    if (density > 10) return "#243A6B";
-    if (density > 5) return "#2A417B";
-    return "#2B448C";
-  };
-
+  //MAP RELATED FUNCTIONS
   useEffect(() => {
     if (geoJsonData) {
+      // VECTOR LAYER FOR GEO JSON DATA
       const vectorSource = new VectorSource({
         features: new GeoJSON().readFeatures(filteredGeoJsonData, {
           featureProjection: "EPSG:3857",
         }),
       });
-
       const vectorLayer = new VectorLayer({
         source: vectorSource,
         style: (feature: FeatureLike) => {
@@ -156,6 +156,7 @@ const MapComponent: React.FC = () => {
         },
       });
 
+      // VECTOR LAYER FOR DRAWING GEOMETRY
       const drawSource = new VectorSource();
       const drawVector = new VectorLayer({
         source: drawSource,
@@ -168,29 +169,14 @@ const MapComponent: React.FC = () => {
         },
       });
 
+      // INITAL VIEW OF THE MAP
       const view = new View({
         center: [-11542437.750890903, 4862581.061116328],
         zoom: 4,
       });
-
       viewRef.current = view;
 
-      const overviewMapControl = new OverviewMap({
-        className: "ol-overviewmap ol-custom-overviewmap",
-        layers: [
-          new TileLayer({
-            source: new OSM({
-              url:
-                "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png" +
-                "?apikey=07fc353cad414368a54104c13b3a84ab",
-            }),
-          }),
-        ],
-        collapseLabel: "\u00BB",
-        label: "\u00AB",
-        collapsed: false,
-      });
-
+      //INSTANCE OF MAP
       const map = new Map({
         target: "map",
         layers: [
@@ -206,9 +192,9 @@ const MapComponent: React.FC = () => {
           new ScaleLine({ units: scaleLineUnit }),
         ]),
       });
-
       mapRef.current = map;
 
+      //MAP LOADING STATE - SPINNER
       map.on("loadstart", function () {
         map.getTargetElement().classList.add("spinner");
       });
@@ -216,6 +202,7 @@ const MapComponent: React.FC = () => {
         map.getTargetElement().classList.remove("spinner");
       });
 
+      //FOR DRAWING GEOMETRY
       const modify = new Modify({ source: drawSource });
       map.addInteraction(modify);
 
@@ -233,17 +220,34 @@ const MapComponent: React.FC = () => {
           map.addInteraction(snap);
         }
       };
-
       addInteractions();
 
-      if (isZoomScaledOn) {
-        map.addControl(new ZoomSlider());
-      }
-
+      //FOR ADDING OVERVIEW MAP
+      const overviewMapControl = new OverviewMap({
+        className: "ol-overviewmap ol-custom-overviewmap",
+        layers: [
+          new TileLayer({
+            source: new OSM({
+              url:
+                "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png" +
+                "?apikey=07fc353cad414368a54104c13b3a84ab",
+            }),
+          }),
+        ],
+        collapseLabel: "\u00BB",
+        label: "\u00AB",
+        collapsed: false,
+      });
       if (isoverViewMapOn) {
         map.addControl(overviewMapControl);
       }
 
+      //FOR ADDING ZOOM SLIDER
+      if (isZoomScaledOn) {
+        map.addControl(new ZoomSlider());
+      }
+
+      //HOVER EFFECT ON THE FEATURES
       const handleHover = (event: MapBrowserEvent<PointerEvent>) => {
         const feature = map.forEachFeatureAtPixel(event.pixel, (feature) => {
           return feature;
@@ -276,12 +280,11 @@ const MapComponent: React.FC = () => {
           setPopoverVisible(false);
         }
       };
-
       if (currentGeometry === "None") {
         map.on("pointermove", handleHover);
       }
 
-      //Download
+      //DOWNLOADING MAP AS PNG
       document.getElementById("export-png")?.addEventListener("click", () => {
         map.once("rendercomplete", () => {
           const mapCanvas = document.createElement("canvas");
@@ -353,6 +356,7 @@ const MapComponent: React.FC = () => {
         map.renderSync();
       });
 
+      //CLEAN UP FUNCTION
       return () => {
         map.un("pointermove", handleHover);
         map.setTarget(undefined);
@@ -367,46 +371,66 @@ const MapComponent: React.FC = () => {
     currentGeometry,
   ]);
 
+  // Define a color scale based on density
+  const getColorForDensity = (density: number): string => {
+    if (density > 200) return "#13202D";
+    if (density > 100) return "#14293D";
+    if (density > 50) return "#16304D";
+    if (density > 20) return "#1D365C";
+    if (density > 10) return "#243A6B";
+    if (density > 5) return "#2A417B";
+    return "#2B448C";
+  };
+
+  //ON SIDEBAR CLOSE
   const closeSideBarHandler = () => {
     setIsAnimating(true);
     setIsSideBarOpen(false);
+
+    //For animating the sidebar
     setTimeout(() => {
       setIsAnimating(false);
-    }, 300); // Match the CSS animation duration
+    }, 300);
   };
 
+  //ON SIDEBAR OPEN
   const openSideBarHandler = () => {
     setIsAnimating(true);
     setIsSideBarOpen(true);
+
+    //For animating the sidebar
     setTimeout(() => {
       setIsAnimating(false);
-    }, 750); // Match the CSS animation duration
+    }, 750);
   };
 
+  //ON SCALE LINE UNIT CHANGE
   const unitsHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     setScaleLineUnit(e.target.value as Units);
   };
 
+  //ON TOGGLING ON OFF ZOOM SLIDER
   const zoomSliderHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setIsZoomScaledOn(e.target.checked);
   };
 
-  const animateView = (options: AnimationOptions) => {
-    viewRef?.current?.animate(options);
-  };
-
-  const elasticToNewYork = () => {
-    animateView({ center: newYork, duration: 2000, easing: elastic, zoom: 6 });
-  };
-
+  //ON TOGGLE OF OVER VIEW MAP
   const overViewMapHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setIsOverViewMapOn(e.target.checked);
   };
 
+  //ON TOGGLE OF LEGEND
   const showLegendHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setShowLegend(e.target.checked);
   };
 
+  //ON CHANGING THE GEOMETRY FOR DRAWING
+  const geoChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const newGeo: GeometryType = e.target.value as GeometryType;
+    setCurrentGeometry(newGeo);
+  };
+
+  //FILTERS OUT BASED ON POPULATION DENSITY VALUE
   const filterHandler = (n: number) => {
     if (geoJsonData !== null) {
       const newFeatures = geoJsonData.features.filter((t) => {
@@ -424,6 +448,7 @@ const MapComponent: React.FC = () => {
     }
   };
 
+  //ON SEARCHING POPULATION DENSITY
   const searchHandler = () => {
     if (inputRef.current !== null) {
       const val = inputRef.current.value;
@@ -431,9 +456,13 @@ const MapComponent: React.FC = () => {
     }
   };
 
-  const geoChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const newGeo: GeometryType = e.target.value as GeometryType;
-    setCurrentGeometry(newGeo);
+  //ANIMATION EFFECT USING ELASTIC FUNCTION
+  const animateView = (options: AnimationOptions) => {
+    viewRef?.current?.animate(options);
+  };
+
+  const elasticToNewYork = () => {
+    animateView({ center: newYork, duration: 2000, easing: elastic, zoom: 6 });
   };
 
   return (
@@ -451,12 +480,14 @@ const MapComponent: React.FC = () => {
             : "lg:col-span-1 lg:row-span-12 sm:row-span-1 sm:col-span-12 row-span-1 col-span-12"
         }`}
       >
+        {/* WHEN SIDEBAR IS OPEN  */}
         <div
           className={`${
             isSideBarOpen ? "open-sidebar" : "close-sidebar "
           } w-full h-full bg-[#3590F0] lg:rounded-r-lg absolute`}
         >
           <div className={`${isSideBarOpen ? "" : " hidden"}`}>
+            {/* CLOSE BUTTON  */}
             <button
               className={`text-3xl text-white lg:ml-52 lg:mt-1 md:ml-60 md:mt-1 ml-48 mt-1`}
               onClick={closeSideBarHandler}
@@ -464,13 +495,16 @@ const MapComponent: React.FC = () => {
               <MdKeyboardDoubleArrowLeft />
             </button>
 
+            {/* SIDEBAR HEADING */}
             <div className="absolute top-2 left-5">
               <h1 className="text-white text-sm md:text-lg font-semibold">
                 CONTROL PANEL
               </h1>
             </div>
 
+            {/* ZOOM SLIDER, OVERVIEWMAP, LEGENDS TOGGLING */}
             <div className="flex justify-between  -mt-3 text-sm lg:text-base lg:block lg:mt-0">
+              {/* ZOOM SLIDER  */}
               <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5">
                 <div className="cbx">
                   <input
@@ -508,6 +542,7 @@ const MapComponent: React.FC = () => {
                 </svg>
               </div>
 
+              {/* OVERVIEW MAP  */}
               <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5">
                 <div className="cbx">
                   <input
@@ -545,6 +580,7 @@ const MapComponent: React.FC = () => {
                 </svg>
               </div>
 
+              {/* LEGEND  */}
               <div className="mt-4 flex items-center checkbox-wrapper-12 ml-5 mr-3">
                 <div className="cbx">
                   <input
@@ -584,7 +620,9 @@ const MapComponent: React.FC = () => {
               </div>
             </div>
 
+            {/* GO TO STATE & SCALELINE UNITS  */}
             <div className="md:flex lg:block mt-5 lg:mt-0">
+              {/* GO TO STATE  */}
               <div className="md:flex lg:block">
                 <div className="mt-4 ml-5 lg:mt-6 lg:ml-5">
                   <button
@@ -613,6 +651,7 @@ const MapComponent: React.FC = () => {
                 </div>
               </div>
 
+              {/* SCALELINE UNITS  */}
               <div className="lg:mt-6 lg:ml-5 flex items-center lg:block mt-3 md:ml-8 ml-5">
                 <h1 className="text-white  text-[1.1rem]">Scale Line Units</h1>
                 <select
@@ -631,6 +670,7 @@ const MapComponent: React.FC = () => {
               </div>
             </div>
 
+            {/* DRAWING GEOMETRY  */}
             <div className="lg:mt-6 mt-3 " id="type">
               <label
                 htmlFor="type"
@@ -697,6 +737,7 @@ const MapComponent: React.FC = () => {
           </div>
         </div>
 
+        {/* WHEN SIDEBAR IS CLOSED  */}
         {!isSideBarOpen && !isAnimating && (
           <div className="h-[0]  bg-white absolute left-0 top-0">
             <button

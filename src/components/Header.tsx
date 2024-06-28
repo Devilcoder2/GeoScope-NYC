@@ -9,11 +9,13 @@ const Header = () => {
 
   return (
     <div className="flex justify-between h-full items-center ">
+      {/* MAIN HEADING  */}
       <div>
         <h1 className="text-2xl ml-10 font-semibold text-white ">MapSense</h1>
       </div>
 
       <div className="flex justify-center items-center">
+        {/* DOWNLOAD BUTTON  */}
         <div>
           <a
             id="export-png"
@@ -26,6 +28,7 @@ const Header = () => {
           <a id="image-download" download="map.png"></a>
         </div>
 
+        {/* LOGOUT BUTTON  */}
         <button
           className="bg-[#3590F0] border-2 border-white text-white mr-10 py-1  px-3 rounded-full "
           onClick={logoutHandler}
