@@ -1,19 +1,18 @@
-# New York Population Density Visualization Project
+# kingspark_poi  Visualization Project
 
 ## Introduction
 
-Build a web application using ReactJS and Typescript to visualize New York's population density using GeoJSON data. Utilized OpenLayers library for map-based visualization.
+Build a web application using ReactJS and Typescript to visualize kingspark_poi GeoJSON data. Utilized OpenLayers library for map-based visualization.
 
 ## Techstack Used
 
 - React
 - Typescript
 - TailwindCSS
-- React Router DOM
 - Open Layers
 - Git
 - Github
-- AWS
+
 
 
 ## Features
@@ -23,61 +22,41 @@ Build a web application using ReactJS and Typescript to visualize New York's pop
 - Used OpenLayers to display map.
 - Utilized GeoJSON data for mapping US population density.
 
-### 2. Legend Implementation
+### 2. Add setting panel 
 
-- Implemented a legend to represent population density ranges.
+-I added a setting panel when click on the setting icon 
+-In the setting panel added the input field for editing or updating the buffer radius
+-Also added the slider only UI implementation
 
-### 3. Tooltips for Population Density Information
+### 3.Added Layer panel
+-In the Layer panel show the type of selected GeoJson data name.
 
-- Added tooltips displaying population density information upon hovering over map features.
+### 4. Tooltips for Park Information
 
-### 4. User Authentication
+- Added tooltips displaying park related information upon hovering over map features (such as name,type,status,entryPoint,Navigable).
 
-- Implemented Login / Logout feature using the Mock API.
 
-### 5. Population Density Filtering
 
-- Implemented a filtering option based on the user input of the population density.
+### 5. Added Draw select tool - circle
+
+- User can use this circle to select the point on the map.
+- Selected point in the circle is highlighted with yellow color.
+- user also change the redius of the circle in the setting panel according to view comfrot.
 
 ### 6. UI/UX Enhancements
 
-- Added spinner effect when the map is loading.
-- Implemented interactive elements (buttons, checkboxes, etc.) for better user experience.
+- Implemented interactive elements (buttons, checkboxes,slider ,input edite and disable feature etc.) for better user experience.
 
-### 7. Map Download
 
-- User can download the map in PNG format.
 
- ### 8. CI/CD Pipeline and Deployment
+ ### 7. Show the information inside the buffer circle
 
-- Implemented a CI/CD pipeline to automate the build, and deployment processes.
-- Integrated with Git for version control and continuous integration.
-- Application is deployed on AWS S3, ensuring scalability, reliability, and efficient content delivery.
-
-### 9. Responsive Design
-
-- The site is fully responsive for both mobile and desktop devices.
-
-### 10. Additional Features
-
-- **Fullscreen Map Option:** User can click the full map button (on the top right corner of the map) to view the map in fullscreen.
-- **Drawing Geometries:** User can choose between different drawing geometries (point, polygon, circle) from the control panel.
-- **Overview Map Toggle:** Toggle option to show an overview map of the entire area from the control panel.
-- **Scale Line Units:** User can change the units of the scale line from the control panel.
-- **Elastic Animation:** Elastic animation when user clicks on 'Go to New York' button.
-- **Zoom Slider:** Toggleable zoom slider from the control panel for easier map zooming.
+- By using Turf library extract information of the points folling inside the buffer circle.
+- Also show the total number of the points inside the buffer circle
 
 
 
 
-
-
-
-## Live Link
-
-Link -> http://mapsense.s3-website.ap-south-1.amazonaws.com
-
-Note: The link should start with http:// and not https:// for successful access.
 
 ## Run Locally
 
@@ -96,9 +75,16 @@ To run this project locally, follow these steps:
    ```npm run dev```
 
 ## Screenshots of the Application 
-![Screenshot (3515)](https://github.com/Devilcoder2/Mapsense-Task/assets/113927776/2a79850b-8c4f-4a78-9867-af890b9584af)
-![Screenshot (3514)](https://github.com/Devilcoder2/Mapsense-Task/assets/113927776/1b8575da-78a2-45f2-88cb-b4cf0b2cd3fa)
-![Screenshot (3513)](https://github.com/Devilcoder2/Mapsense-Task/assets/113927776/d6f1f0b7-c49e-4ea5-aadc-b2eb9c24aef7)
-![Screenshot (3512)](https://github.com/Devilcoder2/Mapsense-Task/assets/113927776/c15abb7b-e886-447b-962b-7ceee084b006)
+
+
+![Screenshot 2024-08-14 184424](https://github.com/user-attachments/assets/9f1ec36b-06ec-451c-abaf-25bb3bce8073)
+
+![Screenshot 2024-08-14 184435](https://github.com/user-attachments/assets/50a16ed5-1b75-4c6c-8f93-928c6b89f5fe)
+![Screenshot 2024-08-14 184445](https://github.com/user-attachments/assets/031ef75c-4cad-4b33-874d-3be4bf85cbfe)
+![Screenshot 2024-08-14 184507](https://github.com/user-attachments/assets/236b5334-9850-48e3-bcc8-1be0f4e640bb)
+![Screenshot 2024-08-14 184525](https://github.com/user-attachments/assets/fb9dfb94-ba4b-4b6b-8d43-f8a5f6874792)
+
+
+![Screenshot 2024-08-14 184557](https://github.com/user-attachments/assets/f84d761d-bf65-4bc4-bc9b-9c1a494c3880)
 
 
