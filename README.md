@@ -73,11 +73,6 @@ Build a web application using ReactJS and Typescript to visualize New York's pop
 
 
 
-## Live Link
-
-Link -> http://mapsense.s3-website.ap-south-1.amazonaws.com
-
-Note: The link should start with http:// and not https:// for successful access.
 
 ## Run Locally
 
