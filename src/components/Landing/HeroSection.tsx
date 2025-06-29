@@ -1,8 +1,8 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Github, Play } from 'lucide-react';
-import PreviewImage from "../assets/Preview.png"// Adjust the path as necessary
+import { ArrowRight, Github } from 'lucide-react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import PreviewImage from "../assets/Preview.png"; // Adjust the path as necessary
 
 export const HeroSection: React.FC = () => {
 

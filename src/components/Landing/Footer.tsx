@@ -1,6 +1,6 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import { Github, Linkedin, MapPin } from 'lucide-react';
+import React from 'react';
 
 export const Footer: React.FC = () => {
   return (
