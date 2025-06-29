@@ -1,9 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Github, Play } from 'lucide-react';
 import PreviewImage from "../assets/Preview.png"// Adjust the path as necessary
+import { useNavigate } from 'react-router-dom';
 
 export const HeroSection: React.FC = () => {
+
+  const navigate = useNavigate();
+
+  const exploreMapsHandler = () => {
+    navigate('/dashboard');
+  }
+
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
       {/* Animated background elements */}
@@ -58,6 +66,7 @@ export const HeroSection: React.FC = () => {
           <motion.button
             whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -20px rgba(0, 212, 255, 0.5)" }}
             whileTap={{ scale: 0.95 }}
+            onClick={exploreMapsHandler}
             className="group bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 px-8 py-4 rounded-2xl font-semibold text-white transition-all duration-300 flex items-center gap-2"
           >
             Explore Maps
@@ -67,10 +76,11 @@ export const HeroSection: React.FC = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => window.open("https://github.com/Devilcoder2/GeoScope-NYC", "_blank")}
             className="group bg-gray-800/50 backdrop-blur-sm border border-gray-700 hover:border-cyan-500/50 px-8 py-4 rounded-2xl font-semibold text-white transition-all duration-300 flex items-center gap-2"
           >
-            <Play className="w-5 h-5" />
-            Watch Demo
+             <Github className="w-5 h-5" />
+              View Source
           </motion.button>
         </motion.div>
 

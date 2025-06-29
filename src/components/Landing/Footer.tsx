@@ -33,9 +33,9 @@ export const Footer: React.FC = () => {
           >
             <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              {['Features', 'Documentation', 'API Reference', 'Support'].map((link) => (
+              {['Features', 'Techstack', 'Explore'].map((link) => (
                 <li key={link}>
-                  <a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">
+                  <a href={`#${link}`} className="text-gray-400 hover:text-cyan-400 transition-colors">
                     {link}
                   </a>
                 </li>
@@ -52,9 +52,8 @@ export const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold text-white mb-4">Connect</h3>
             <div className="flex gap-4">
               {[
-                { icon: Github, href: '#' },
-                { icon: Linkedin, href: '#' },
-                { icon: Mail, href: '#' },
+                { icon: Github, href: 'https://github.com/Devilcoder2/GeoScope-NYC' },
+                { icon: Linkedin, href: 'https://www.linkedin.com/in/ramandeep-singh-3b6560249/' },
               ].map(({ icon: Icon, href }, index) => (
                 <motion.a
                   key={index}

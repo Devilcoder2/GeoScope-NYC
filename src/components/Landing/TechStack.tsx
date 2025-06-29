@@ -14,7 +14,7 @@ export const TechStack: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-24 px-4">
+    <section className="relative py-24 px-4" id='Techstack'>
       <div className="max-w-6xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

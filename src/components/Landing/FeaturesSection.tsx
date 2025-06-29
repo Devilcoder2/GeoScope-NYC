@@ -81,7 +81,7 @@ export const FeaturesSection: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-24 px-4">
+    <section className="relative py-24 px-4" id='Features'>
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
