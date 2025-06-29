@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
+import PreviewImage from "../assets/Preview.png"// Adjust the path as necessary
 
 export const HeroSection: React.FC = () => {
   return (
@@ -79,7 +80,7 @@ export const HeroSection: React.FC = () => {
           transition={{ duration: 1, delay: 0.8 }}
           className="mt-16"
         >
-          <div className="relative max-w-4xl mx-auto">
+          <div className="relative max-w-2xl mx-auto">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-3xl blur-xl" />
             <div className="relative bg-gray-900/90 backdrop-blur-sm border border-gray-800 rounded-3xl p-8 shadow-2xl">
               <div className="flex items-center gap-3 mb-6">
@@ -92,10 +93,12 @@ export const HeroSection: React.FC = () => {
               </div>
               <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl h-64 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                  {/* <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
                     <span className="text-2xl">🗺️</span>
-                  </div>
-                  <p className="text-gray-400">Interactive Map Preview</p>
+                  </div> */}
+                  <p className="text-gray-400 w-96">
+                    <img src={PreviewImage} alt="MapViz Pro Preview" />
+                  </p>
                 </div>
               </div>
             </div>

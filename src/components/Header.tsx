@@ -11,7 +11,7 @@ const Header = () => {
     <div className="flex justify-between h-full items-center ">
       {/* MAIN HEADING  */}
       <div>
-        <h1 className="text-2xl ml-10 font-semibold text-white ">MapSense</h1>
+        <h1 className="text-2xl ml-10 font-semibold text-white ">MapViz Pro</h1>
       </div>
 
       <div className="flex justify-center items-center">
